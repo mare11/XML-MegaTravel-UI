@@ -5,22 +5,24 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule, RoutingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
-import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
-import { RegistrationDialogComponent } from './components/registration-dialog/registration-dialog.component';
 import { SnackBar } from './utils';
+import { UserSingleReservationComponent } from './components/user-single-reservation/user-single-reservation.component';
+import { ReservationsFilterPipe } from './pipes/reservations-filter/reservations-filter.pipe';
+import { UserInfoComponent } from './components/user-info/user-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RoutingComponents
+    RoutingComponents,
+    UserSingleReservationComponent,
+    ReservationsFilterPipe,
+    UserInfoComponent
   ],
   entryComponents: [
-    RoutingComponents,
-    LoginDialogComponent,
-    RegistrationDialogComponent
+    RoutingComponents
   ],
   imports: [
     BrowserModule,
@@ -29,6 +31,7 @@ import { SnackBar } from './utils';
     MaterialModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    FormsModule,
     SnackBar
   ],
   providers: [],

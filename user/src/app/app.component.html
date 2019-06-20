@@ -19,7 +19,7 @@
         </a>
       </mat-menu>
     </div>&nbsp;&nbsp;
-    <button mat-raised-button style="color: white;" class="bg-primary" *ngIf="!username" (click)="openLoginDialog()">
+    <button mat-raised-button style="color: white;" class="bg-primary" *ngIf="!username" (click)="doLogin()">
       <mat-icon>person</mat-icon> Login
     </button>&nbsp;&nbsp;
     <button mat-raised-button style="color: white;" class="bg-success" *ngIf="!username"
@@ -29,6 +29,6 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
-<div style="padding-top: 80px; padding-left: 10px;">
+<div style="padding-top: 60px;">
   <router-outlet></router-outlet>
 </div>

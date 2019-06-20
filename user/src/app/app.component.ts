@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { AuthenticationService } from './services/authentication/authentication.service';
 import { Router } from '@angular/router';
 import { RegistrationDialogComponent } from './components/registration-dialog/registration-dialog.component';
@@ -28,19 +28,20 @@ export class AppComponent implements OnInit {
     );
   }
 
-  openLoginDialog() {
-    const dialogRef = this.dialog.open(LoginDialogComponent,
-      {
-        data: undefined,
-        disableClose: true,
-        autoFocus: true,
-        width: '30%'
-      });
-    dialogRef.afterClosed().subscribe(
+  openLoginDialog(): MatDialogRef<LoginDialogComponent> {
+    return this.dialog.open(LoginDialogComponent, {
+      data: undefined,
+      disableClose: true,
+      autoFocus: true,
+      width: '30%'
+    });
+  }
+
+  doLogin() {
+    this.openLoginDialog().afterClosed().subscribe(
       (data) => {
         if (data) {
           this.authenticationService.setUserState(data);
-          this.router.navigate(['/']);
           this.snackBar.showSnackBar('Logged in successfully!');
         }
       }
@@ -59,7 +60,6 @@ export class AppComponent implements OnInit {
       (data) => {
         if (data) {
           alert('You have successfully registered! Congratulations! Open the email and confirm that it is you!');
-          this.router.navigate(['/']);
         }
       }
     );

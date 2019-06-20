@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="container d-flex justify-content-center" *ngFor="let accommodation of accommodations">
-    <div class="card text-white w-75 mat-elevation-z16 mb-4" style="background-color: #E59F71">
+    <div class="card text-white w-75 mat-elevation-z16 mb-4" style="background-color: #757780">
       <div class="row">
         <div class="col-md-6 container d-flex justify-content-center">
           <div class="row justify-content-center align-self-center">
@@ -48,7 +48,7 @@
               </div>
               <p class="card-text" *ngIf="accommodation.freeCancellation"><span class="badge badge-success">Free cancellation is possible {{accommodation.cancellationDays}} days before departure.</span></p>
               <div class="d-flex justify-content-end align-items-end mt-5">
-                <button (click)="beginReservationProcess(accommodation)" class="btn btn-danger">
+                <button (click)="openReservationDialog(accommodation)" class="btn btn-danger">
                   Reservation &nbsp; <i class="fa fa-calendar-plus-o"></i>
                 </button>
                 <button class="btn btn-danger mx-2">
