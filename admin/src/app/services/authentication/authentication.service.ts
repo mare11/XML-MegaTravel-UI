@@ -62,7 +62,7 @@ export class AuthenticationService {
   }
 
   login(authRequest: any) {
-    return this.http.post('/login', authRequest);
+    return this.http.post('/api/authentication-service/authentication', authRequest);
   }
 
   logout() {

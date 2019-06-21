@@ -1,0 +1,26 @@
+<mat-menu #menu="matMenu">
+  <a mat-menu-item class="text-primary" (click)="openDialog()">
+    <mat-icon>person_pin</mat-icon> Add administrator
+  </a>
+  <mat-divider></mat-divider>
+  <a mat-menu-item class="bg-light text-secondary" (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon> Logout
+  </a>
+</mat-menu>
+<div class="row mr-3 d-flex justify-content-end">
+  <button mat-button [matMenuTriggerFor]="menu" class="btn btn-outline-secondary text-dark">
+    <mat-icon class="mr-2">person</mat-icon>
+    {{username}}
+  </button>
+</div>
+<mat-tab-group mat-stretch-tabs>
+  <mat-tab label="Users">
+    <app-users></app-users>
+  </mat-tab>
+  <mat-tab label="Agents">
+    <app-agents></app-agents>
+  </mat-tab>
+  <mat-tab label="Accommodation types and additional services">
+    <app-accommodation></app-accommodation>
+  </mat-tab>
+</mat-tab-group>
