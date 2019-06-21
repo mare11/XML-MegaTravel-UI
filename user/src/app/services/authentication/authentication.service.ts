@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
+import { LoginUser } from 'src/app/models/LoginUser';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,14 @@ export class AuthenticationService {
     return JSON.parse(localStorage.getItem(this.userKey)).username;
   }
 
-  login(authRequest: any) {
+  getId(): number {
+    if (!JSON.parse(localStorage.getItem(this.userKey))) {
+      return null;
+    }
+    return JSON.parse(localStorage.getItem(this.userKey)).id;
+  }
+
+  login(authRequest: LoginUser) {
     return this.http.post('/api/authentication-service/authentication', authRequest);
   }
 

@@ -1,0 +1,36 @@
+<div *ngIf="dataLoaded">
+  <div *ngIf="reservations && reservations.length > 0" class="row d-flex justify-content-center m-3">
+    <div class="col-sm-4 text-center align-self-center">
+      <h4 class="display-4">Upcoming reservations</h4>
+    </div>
+    <div class="col-sm-4 text-center align-self-center">
+      <h4 class="display-4">Current active reservations</h4>
+    </div>
+    <div class="col-sm-4 text-center align-self-center">
+      <h4 class="display-4">Past reservations</h4><br>
+    </div>
+  </div>
+  <div *ngIf="reservations && reservations.length > 0" class="row d-flex justify-content-center m-3">
+    <div class="col-sm-4 list-group">
+      <div class="list-group-item list-group-item-success flex-column align-items-stretch my-2"
+        *ngFor="let reservation of reservations | reservationsFilter : 2; let i = index;">
+        <app-user-single-reservation [reservation]="reservation"></app-user-single-reservation>
+      </div>
+    </div>
+    <div class="col-sm-4 list-group">
+      <div class="list-group-item list-group-item-warning flex-column align-items-stretch my-2"
+        *ngFor="let reservation of reservations | reservationsFilter : 1; let i = index;">
+        <app-user-single-reservation [reservation]="reservation"></app-user-single-reservation>
+      </div>
+    </div>
+    <div class="col-sm-4 list-group">
+      <div class="list-group-item list-group-item-danger flex-column align-items-stretch my-2"
+          *ngFor="let reservation of reservations | reservationsFilter : 0; let i = index;">
+          <app-user-single-reservation [reservation]="reservation"></app-user-single-reservation>
+      </div>
+    </div>
+</div>
+  <div *ngIf="!reservations || reservations.length === 0">
+    <h3>You don't have any reservations yet!</h3>
+  </div>
+</div>

@@ -25,3 +25,14 @@ export enum HttpStatus {
     NOT_FOUND = 404,
     CONFLICT = 409
 }
+
+export enum ReservationState {
+    PASSED,
+    IN_PROGRESS,
+    ACTIVE
+}
+
+export enum DirectionEnum {
+    AGENT_TO_USER,
+    USER_TO_AGENT
+}
