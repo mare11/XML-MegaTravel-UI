@@ -1,0 +1,42 @@
+<div style="padding-top: 10px">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col">First name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Enabled</th>
+        <th scope="col">Deleted</th>
+        <th scope="col">Block/Active</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr scope="row" *ngFor="let user of users">
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.firstName}}</td>
+        <td>{{user.lastName}}</td>
+        <td>
+          <div *ngIf="user.enabled && !user.deleted"> ✓ </div>
+          <div *ngIf="!user.enabled || user.deleted"> ✗ </div>
+        </td>
+        <td>
+          <div *ngIf="user.deleted"> ✓ </div>
+          <div *ngIf="!user.deleted"> ✗ </div>
+        </td>
+        <td>
+          <div *ngIf="user.enabled && !user.deleted"><button type="button" class="btn btn-warning"
+              (click)="blockUser(user)">Block user</button></div>
+          <div *ngIf="!user.enabled && !user.deleted"><button type="button" class="btn btn-success"
+              (click)="activeteUser(user)">Activate user</button></div>
+        </td>
+        <td>
+          <div *ngIf="!user.deleted"><button type="button" class="btn btn-danger" (click)="deleteUser(user)">Delete
+              user</button></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

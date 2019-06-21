@@ -1,0 +1,27 @@
+<div style="padding-top: 10px">
+  <div style="padding-bottom: 10px">
+    <button type="button" class="btn btn-primary" (click)="openDialog()">Create
+      agent</button></div>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col">First name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Address</th>
+        <th scope="col">Bussines ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr scope="row" *ngFor="let agent of agents">
+        <td>{{agent.username}}</td>
+        <td>{{agent.email}}</td>
+        <td>{{agent.firstName}}</td>
+        <td>{{agent.lastName}}</td>
+        <td>{{agent.adress}}</td>
+        <td>{{agent.bussinesID}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

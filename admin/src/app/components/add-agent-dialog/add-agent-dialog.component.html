@@ -1,0 +1,113 @@
+<h1 mat-dialog-title>Create agent</h1>
+<mat-dialog-content [formGroup]="agentForm" class="fields-container">
+  <div class="row d-flex justify-content-center mt-3">
+    <mat-form-field class="w-75">
+      <input matInput type="text" formControlName="username" placeholder="Username">
+      <mat-error
+        *ngIf="agentForm.get('username').invalid && (agentForm.get('username').dirty || agentForm.get('username').touched)">
+        <div *ngIf="agentForm.get('username').errors.required"> Username is required.</div>
+        <div *ngIf="!agentForm.get('username').errors.required &&
+                          (agentForm.get('username').errors.minlength || agentForm.get('username').errors.maxlength)">
+          Invalid username length!
+        </div>
+        <div *ngIf="agentForm.get('username').errors.usernameExists"> User with username
+          <i>{{agentForm.value.username}}</i> already exists.</div>
+      </mat-error>
+      <mat-hint>
+        Username length must be between {{usernameMinLength}} and {{usernameMaxLength}}. <br>
+      </mat-hint>
+    </mat-form-field>
+  </div>
+  <br>
+  <div class="row d-flex justify-content-center mt-3">
+    <mat-form-field class="w-75">
+      <input matInput type="password" formControlName="password" placeholder="Password">
+      <mat-error
+        *ngIf="agentForm.get('password').invalid && (agentForm.get('password').dirty || agentForm.get('password').touched)">
+        <div *ngIf="agentForm.get('password').errors.required"> Password is required.</div>
+        <div *ngIf="!agentForm.get('password').errors.required &&
+                          (agentForm.get('password').errors.minlength || agentForm.get('password').errors.maxlength)">
+          Invalid password length!
+        </div>
+      </mat-error>
+      <mat-hint>
+        Password length must be between {{passwordMinLength}} and {{passwordMaxLength}}.
+      </mat-hint>
+    </mat-form-field>
+  </div>
+  <br>
+  <div class="row d-flex justify-content-center mt-3">
+    <mat-form-field class="w-75">
+      <input matInput type="password" formControlName="confirmPassword" placeholder="Confirm password">
+      <mat-error
+        *ngIf="agentForm.get('confirmPassword').invalid && (agentForm.get('confirmPassword').dirty || agentForm.get('confirmPassword').touched)">
+        <div *ngIf="agentForm.get('confirmPassword').errors.required"> Confirming password is required.</div>
+        <div
+          *ngIf="!agentForm.get('confirmPassword').errors.required && agentForm.get('confirmPassword').errors.mustMatch">
+          Password does not match!</div>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <br>
+  <div class="row d-flex justify-content-center mt-3">
+    <mat-form-field class="w-75">
+      <input matInput type="email" formControlName="email" placeholder="Email">
+      <mat-error
+        *ngIf="agentForm.get('email').invalid && (agentForm.get('email').dirty || agentForm.get('email').touched)">
+        <div *ngIf="agentForm.get('email').errors.required"> Email is required.</div>
+        <div *ngIf="!agentForm.get('email').errors.required && agentForm.get('email').errors.email"> Invalid
+          email format!</div>
+        <div *ngIf="agentForm.get('email').errors.emailExists"> User with email
+          <i>{{agentForm.value.email}}</i> already exists.</div>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <br>
+  <div class="row d-flex justify-content-center mt-3">
+    <mat-form-field class="w-75">
+      <input matInput type="text" formControlName="firstName" placeholder="First name">
+      <mat-error
+        *ngIf="agentForm.get('firstName').invalid && (agentForm.get('firstName').dirty || agentForm.get('firstName').touched)">
+        <div *ngIf="agentForm.get('firstName').errors.required"> First name is required.</div>
+        <div *ngIf="agentForm.get('firstName').errors.pattern"> Only letters are allowed.</div>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <br>
+  <div class="row d-flex justify-content-center mt-3">
+    <mat-form-field class="w-75">
+      <input matInput type="text" formControlName="lastName" placeholder="Last name">
+      <mat-error
+        *ngIf="agentForm.get('lastName').invalid && (agentForm.get('lastName').dirty || agentForm.get('lastName').touched)">
+        <div *ngIf="agentForm.get('lastName').errors.required"> Last name is required.</div>
+        <div *ngIf="agentForm.get('lastName').errors.pattern"> Only letters are allowed.</div>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <br>
+  <div class="row d-flex justify-content-center mt-3">
+    <mat-form-field class="w-75">
+      <input matInput type="text" formControlName="address" placeholder="Address">
+      <mat-error
+        *ngIf="agentForm.get('address').invalid && (agentForm.get('address').dirty || agentForm.get('address').touched)">
+        <div *ngIf="agentForm.get('address').errors.required"> Address is required.</div>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <br>
+  <div class="row d-flex justify-content-center mt-3">
+    <mat-form-field class="w-75">
+      <input matInput type="text" formControlName="bussinesID" placeholder="Bussines ID">
+      <mat-error
+        *ngIf="agentForm.get('bussinesID').invalid && (agentForm.get('bussinesID').dirty || agentForm.get('bussinesID').touched)">
+        <div *ngIf="agentForm.get('bussinesID').errors.required"> Bussines ID is required.</div>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <br>
+</mat-dialog-content>
+<mat-dialog-actions align="center" class="mt-5">
+  <button mat-raised-button color="primary" type="submit" (click)="validateByUsername()"
+    [disabled]="agentForm.invalid">Submit</button>
+  <button mat-raised-button [mat-dialog-close]>Cancel</button>
+</mat-dialog-actions>
