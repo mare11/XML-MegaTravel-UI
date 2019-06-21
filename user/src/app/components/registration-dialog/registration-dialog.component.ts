@@ -4,6 +4,7 @@ import { RegistrationService } from 'src/app/services/registration/registration.
 import { MatDialogRef } from '@angular/material';
 import { RegistrationUser } from 'src/app/models/RegistrationUser';
 import { SnackBar } from 'src/app/utils';
+import { UserUniqueness } from 'src/app/models/UserUniqueness';
 
 @Component({
   selector: 'app-registration-dialog',
@@ -25,7 +26,7 @@ export class RegistrationDialogComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder, private snackBar: SnackBar) {
     this.enterListener = (event) => {
       if (event.keyCode === 13) {
-        this.validateByUsername();
+        this.validateUsernameAndEmail();
       }
     };
   }
@@ -67,33 +68,22 @@ export class RegistrationDialogComponent implements OnInit, OnDestroy {
     };
   }
 
-  validateByUsername() {
+  validateUsernameAndEmail() {
     const usernameControl: AbstractControl = this.registrationForm.get('username');
-    this.registrationService.checkUserByUsername(usernameControl.value).subscribe(
+    const emailControl: AbstractControl = this.registrationForm.get('email');
+    const userUniqueness = new UserUniqueness(usernameControl.value, null, emailControl.value);
+    this.registrationService.checkuserUniqueness(userUniqueness).subscribe(
       (data) => {
         usernameControl.setErrors(null);
-      },
-      (error) => {
-        usernameControl.setErrors({ usernameExists: true });
-      },
-      () => {
-        this.validateByEmail();
-      });
-  }
-
-  validateByEmail() {
-    const emailControl: AbstractControl = this.registrationForm.get('email');
-    this.registrationService.checkUserByEmail(emailControl.value).subscribe(
-      (data) => {
         emailControl.setErrors(null);
       },
       (error) => {
+        usernameControl.setErrors({ usernameExists: true });
         emailControl.setErrors({ emailExists: true });
       },
       () => {
         this.registerUserIfValid();
-      }
-    );
+      });
   }
 
   registerUserIfValid() {

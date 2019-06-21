@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { UserUniqueness } from 'src/app/models/UserUniqueness';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +9,8 @@ export class RegistrationService {
 
   constructor(private http: HttpClient) { }
 
-  checkUserByUsername(username: string) {
-    return this.http.get('api/authentication-service/authentication/username/' + username);
-  }
-
-  checkUserByEmail(email: string) {
-    return this.http.get('api/authentication-service/authentication/email/' + email);
+  checkuserUniqueness(userUniqueness: UserUniqueness) {
+    return this.http.post('api/authentication-service/authentication/user', userUniqueness);
   }
 
   registerUser(user: any) {

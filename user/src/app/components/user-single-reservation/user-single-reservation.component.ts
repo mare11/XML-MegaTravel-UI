@@ -16,9 +16,10 @@ export class UserSingleReservationComponent implements OnInit {
   private array: ArrayConstructor;
   private message: string;
 
-  constructor(private reservationServce: ReservationService,
-              private snackBar: SnackBar,
-              private userReservationsComponent: UserReservationsComponent) { }
+  constructor(
+    private reservationServce: ReservationService,
+    private snackBar: SnackBar,
+    private userReservationsComponent: UserReservationsComponent) { }
 
   ngOnInit() {
     this.array = Array;
@@ -26,9 +27,7 @@ export class UserSingleReservationComponent implements OnInit {
   }
 
   sendMessage(reservation: any) {
-    const timestamp = new Date(Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),
-                                new Date().getHours(), new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds()));
-    const message = new Message(this.message, timestamp, DirectionEnum.USER_TO_AGENT);
+    const message = new Message(this.message, null, DirectionEnum.USER_TO_AGENT);
     this.reservationServce.addMessage(reservation.id, message).subscribe(
       () => {
         this.snackBar.showSnackBar('Message is sent successfully!');
