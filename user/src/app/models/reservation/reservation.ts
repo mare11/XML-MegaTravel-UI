@@ -8,6 +8,7 @@ export class Reservation {
     private startDate: string;
     private endDate: string;
     private realized: string;
+    private price: number;
     private ReservationRating: ReservationRating;
     private Message: Message;
 
@@ -58,6 +59,14 @@ export class Reservation {
      */
     public get $realized(): string {
         return this.realized;
+    }
+
+    /**
+     * Getter $price
+     * @return {string}
+     */
+    public get $price(): number {
+        return this.price;
     }
 
     /**
@@ -122,6 +131,14 @@ export class Reservation {
      */
     public set $realized(value: string) {
         this.realized = value;
+    }
+
+    /**
+     * Setter $price
+     * @param {string} value
+     */
+    public set $price(value: number) {
+        this.price = value;
     }
 
     /**

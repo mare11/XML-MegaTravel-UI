@@ -40,14 +40,16 @@ export class UserSingleReservationComponent implements OnInit {
   }
 
   cancelReservation(reservation: any) {
-    this.reservationServce.cancelReservation(reservation.id).subscribe(
-      () => {
-        this.snackBar.showSnackBar('Reservation is canceled successfully!');
-        this.userReservationsComponent.removeReservation(reservation.id);
-      },
-      (error) => {
-        this.snackBar.showSnackBar(error.error.message);
-      }
-    );
+    if (confirm('Are you sure you want to cancel this reservation?')) {
+      this.reservationServce.cancelReservation(reservation.id).subscribe(
+        () => {
+          this.snackBar.showSnackBar('Reservation is canceled successfully!');
+          this.userReservationsComponent.removeReservation(reservation.id);
+        },
+        (error) => {
+          this.snackBar.showSnackBar(error.error.message);
+        }
+      );
+    }
   }
 }

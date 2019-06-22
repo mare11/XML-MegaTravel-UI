@@ -56,6 +56,7 @@ export class AccommodationsComponent {
     reservation.$userId = this.authenticationService.getId();
     reservation.$startDate = startDate;
     reservation.$endDate = endDate;
+    reservation.$price = accommodation.$priceForRequestedPeriod;
 
     const dialogRef = this.dialog.open(ReservationDialogComponent, {
       data: {

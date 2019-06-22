@@ -27,7 +27,6 @@ export class UserReservationsComponent implements OnInit {
         (reservations: Array<Reservation>) => {
           this.reservations = reservations;
           this.reservations.forEach((reservation, index) => {
-            reservation.accommodation = this.accommodationService.getAccommodationById(reservation.accommodationId);
 
             // Check in which state reservation is
             const currentDate = new Date();
