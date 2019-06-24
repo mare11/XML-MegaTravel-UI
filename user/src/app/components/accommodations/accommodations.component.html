@@ -2,62 +2,137 @@
   <div class="jumbotron jumbotron-fluid p-5 bg-info text-white">
     <div class="container">
       <h1 class="display-4" style="text-shadow: 1px 1px #000000;">Showing accommodation in or near by:</h1>
-      <h1 class="display-4" style="text-shadow: 1px 1px #000000;">&lt;place for searched location&gt;</h1>
+      <h1 class="display-4" style="text-shadow: 1px 1px #000000;">{{location.city}}</h1>
       <p class="lead mt-4">
-        We have found {{accommodations.length}} accommodations for you in following period: &lt;start date&gt; 
-        <i class="fa fa-long-arrow-right"></i> &lt;end date&gt;
+        We have found {{accommodations.length}} accommodations for you in following period: {{checkInDate | date}}
+        <i class="fa fa-long-arrow-right"></i> {{checkOutDate | date}}
       </p>
     </div>
   </div>
-  <div class="container d-flex justify-content-center" *ngFor="let accommodation of accommodations">
-    <div class="card text-white w-75 mat-elevation-z16 mb-4" style="background-color: #757780">
-      <div class="row">
-        <div class="col-md-6 container d-flex justify-content-center">
-          <div class="row justify-content-center align-self-center">
-            <img alt="Place for image">
+  <div class="row">
+    <div class="col-4">
+      <div class="container d-flex justify-content-center">
+        <div [formGroup]="searchForm" class="card" style="border: none">
+          <div class="card w-75 mat-elevation-z16 ml-4 mb-3" style="background-color:	#ffff4d ">
+            <div class="align-self-center">
+              <h3>Basic parameters</h3>
+            </div>
+            <div class="justify-content-center align-self-center">
+              <mat-form-field appearance="outline" class="mt-2 w-75 ml-4">
+                <mat-label>Location</mat-label>
+                <input id="location-input" matInput type="text" formControlName="location" placeholder="Location">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="w-75 ml-4">
+                <input matInput [min]="today" [matDatepicker]="picker" formControlName="checkInDate" placeholder="Check in date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="w-75 ml-4">
+                <input matInput [min]="today" [matDatepicker]="picker2" formControlName="checkOutDate" placeholder="Check out date">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="w-75 ml-4">
+                <mat-label>Number of persons</mat-label>
+                <input matInput type="text" formControlName="numberOfPersons" placeholder="Number Of Persons">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="card w-75 mat-elevation-z16 ml-4" style="background-color: white ">
+            <div class="align-self-center">
+              <h3>Additional parameters</h3>
+            </div>
+            <div class="justify-content-center align-self-center">
+              <h5>Additional services</h5>
+              <div *ngFor="let additionalService of additionalServices">
+                <mat-checkbox (change)="additionalServiceChange(additionalService.additionalServiceName, $event)"
+                  color="primary">{{additionalService.additionalServiceName}}</mat-checkbox>
+              </div>
+              <h5>Accommodation types</h5>
+              <div *ngFor="let accommodationType of accommodationTypes">
+                <mat-checkbox (change)="accommodationTypeChange(accommodationType.typeName, $event)" color="primary">
+                  {{accommodationType.typeName}}</mat-checkbox>
+              </div>
+              <h5>Categories</h5>
+              <div *ngFor="let category of categories">
+                <mat-checkbox (change)="categoryChange(category, $event)" color="primary">{{category}}</mat-checkbox>
+              </div>
+              <h5>Distance from location</h5>
+              <mat-radio-group color="primary">
+                <div *ngFor="let distance of distancesFromLocation">
+                  <mat-radio-button (change)="distanceChange(distance)" [value]="distance">Under {{distance}} km
+                  </mat-radio-button>
+                </div>
+              </mat-radio-group>
+              <button class="w-100 mb-3" color="primary" [disabled]=searchForm.invalid mat-raised-button (click)="search()">
+                <mat-icon>search</mat-icon>Search
+              </button>
+            </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="row justify-content-center align-self-center">
-            <div class="card-body">
-              <div class="row ml-3 mb-2">
-                <div class="d-flex align-items-center">
-                    <h5 class="card-text"><span class="badge badge-primary">{{accommodation.accommodationType.typeName}}</span></h5>
-                </div>
-                <div class="col-8">
-                  <div class="star-ratings-css" *ngIf="accommodation.category > 0">
-                      <span [ngStyle]="{'width': ((accommodation.category * 100) / 5) + '%'}" class="text-warning align-middle">
-                        ★★★★★
-                      </span>
+      </div>
+    </div>
+    <div class="col">
+      <div class="container d-flex justify-content-center" *ngFor="let accommodation of accommodations">
+        <div class="card text-white w-75 mat-elevation-z16 mb-4" style="background-color: #757780">
+          <div class="row">
+            <div class="col-md-6 container d-flex justify-content-center">
+              <div class="row justify-content-center align-self-center">
+                <img alt="Place for image">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row justify-content-center align-self-center">
+                <div class="card-body">
+                  <div class="row ml-3 mb-2">
+                    <div class="d-flex align-items-center">
+                      <h5 class="card-text"><span
+                          class="badge badge-primary">{{accommodation.accommodationType.typeName}}</span></h5>
+                    </div>
+                    <div class="col-8">
+                      <div class="star-ratings-css" *ngIf="accommodation.category > 0">
+                        <span [ngStyle]="{'width': ((accommodation.category * 100) / 5) + '%'}"
+                          class="text-warning align-middle">
+                          ★★★★★
+                        </span>
+                      </div>
+                      <h5 class="card-text ml-2 align-middle" *ngIf="accommodation.category === 0"><span
+                          class="badge badge-warning">uncategorized</span></h5>
+                    </div>
                   </div>
-                  <h5 class="card-text ml-2 align-middle" *ngIf="accommodation.category === 0"><span class="badge badge-warning">uncategorized</span></h5>
+                  <p class="card-text"><b>Location: </b>{{accommodation.location.country}},
+                    {{accommodation.location.city}},
+                    {{accommodation.location.address}}</p>
+                  <p class="card-text">
+                    <b>Distance: </b> <u matTooltip="This is just the air distance." matTooltipPosition="after"
+                      style="cursor: help;"> {{accommodation.distance}} km </u>
+                  </p>
+                  <p class="card-text"><b>Description:
+                    </b>{{(!accommodation.description) ? '✗' : accommodation.description}}</p>
+                  <p class="card-text"><b>Price for requested period: </b>{{accommodation.priceForRequestedPeriod}}</p>
+                  <div class="row ml-3 mb-2">
+                    <div *ngFor="let item of array(accommodation.numberOfPersons).fill(1)">
+                      <i class="fa fa-user mr-1" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                  <p class="card-text" *ngIf="accommodation.freeCancellation"><span class="badge badge-success">Free
+                      cancellation is possible {{accommodation.cancellationDays}} days before departure.</span></p>
+                  <div class="d-flex justify-content-end align-items-end mt-5">
+                    <button (click)="openReservationDialog(accommodation)" class="btn btn-danger">
+                      Reservation &nbsp; <i class="fa fa-calendar-plus-o"></i>
+                    </button>
+                    <button class="btn btn-danger mx-2">
+                      Details &nbsp; <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <p class="card-text"><b>Location: </b>{{accommodation.location.country}}, {{accommodation.location.city}}, {{accommodation.location.address}}</p>
-              <p class="card-text">
-                  <b>Distance: </b> <u matTooltip="This is just the air distance." 
-                                       matTooltipPosition="after" 
-                                       style="cursor: help;"> {{accommodation.distance}} km </u>
-              </p>
-              <p class="card-text"><b>Description: </b>{{(!accommodation.description) ? '✗' : accommodation.description}}</p>
-              <p class="card-text"><b>Price for requested period: </b>{{accommodation.priceForRequestedPeriod}}</p>
-              <div class="row ml-3 mb-2">
-                <div *ngFor="let item of array(accommodation.numberOfPersons).fill(1)">
-                  <i class="fa fa-user mr-1" aria-hidden="true"></i>
-                </div>
-              </div>
-              <p class="card-text" *ngIf="accommodation.freeCancellation"><span class="badge badge-success">Free cancellation is possible {{accommodation.cancellationDays}} days before departure.</span></p>
-              <div class="d-flex justify-content-end align-items-end mt-5">
-                <button (click)="openReservationDialog(accommodation)" class="btn btn-danger">
-                  Reservation &nbsp; <i class="fa fa-calendar-plus-o"></i>
-                </button>
-                <button class="btn btn-danger mx-2">
-                  Details &nbsp; <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                </button>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div *ngIf="accommodations.length == 0">
+        <h2 class="mt-3">There are no available accommodations with these parameters, try with different parameters</h2>
       </div>
     </div>
   </div>

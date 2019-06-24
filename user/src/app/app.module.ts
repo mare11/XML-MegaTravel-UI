@@ -12,6 +12,7 @@ import { SnackBar } from './utils';
 import { UserSingleReservationComponent } from './components/user-single-reservation/user-single-reservation.component';
 import { ReservationsFilterPipe } from './pipes/reservations-filter/reservations-filter.pipe';
 import { UserInfoComponent } from './components/user-info/user-info.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { UserInfoComponent } from './components/user-info/user-info.component';
     RoutingComponents,
     UserSingleReservationComponent,
     ReservationsFilterPipe,
-    UserInfoComponent
+    UserInfoComponent,
+    HomepageComponent
   ],
   entryComponents: [
     RoutingComponents

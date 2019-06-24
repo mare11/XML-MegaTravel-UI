@@ -12,15 +12,15 @@
           <p class="card-text"><b>Description: </b>{{(!reservation.accommodation.description) ?
             '✗' : reservation.accommodation.description}}</p>
           <p class="card-text"><b>Number of persons: </b>{{reservation.accommodation.numberOfPersons}}</p>
-          <p class="card-text"><b>Start date: </b>{{reservation.startDate}}</p>
-          <p class="card-text"><b>End date: </b>{{reservation.endDate}}</p>
+          <p class="card-text"><b>Start date: </b>{{reservation.startDate | date}}</p>
+          <p class="card-text"><b>End date: </b>{{reservation.endDate | date}}</p>
           <p class="card-text" *ngIf="reservation.accommodation.freeCancellation"><b>Free cancellation is
               possible {{reservation.accommodation.cancellationDays}} days before departure.</b></p>
           <hr>
           <div class="row justify-content-center align-self-center">
             <h3 class="card-title">Total price &nbsp;<i class="fa fa-long-arrow-right"></i>&nbsp;
-               {{reservation.accommodation.priceForRequestedPeriod}}
-               <span style="font-size: 70%;"><i class="fa fa-eur"></i></span>
+              {{reservation.accommodation.priceForRequestedPeriod}}
+              <span style="font-size: 70%;"><i class="fa fa-eur"></i></span>
             </h3>
           </div>
         </div>

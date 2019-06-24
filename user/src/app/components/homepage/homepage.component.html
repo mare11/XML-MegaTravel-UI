@@ -1,0 +1,31 @@
+<img src="assets/images/cover-photo.jpg" class="cover">
+<div style="text-align:center">
+  <div class="container d-flex justify-content-center">
+    <div class="center card w-100 mat-elevation-z16" style="background-color:	#ffffff ">
+      <div [formGroup]="searchForm" class="row justify-content-center align-self-center">
+        <mat-form-field appearance="outline" class="col align-self-center w-100 mt-3 mr-3">
+          <mat-label>Location</mat-label>
+          <input id="location-input" matInput type="text" formControlName="location" placeholder="Location">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col align-self-center mt-3 w-75 mr-3">
+          <input matInput [min]="today" autocomplete="off" [matDatepicker]="picker" formControlName="checkInDate" placeholder="Check in date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col align-self-center mt-3 w-75 mr-3">
+          <input matInput [min]="today" autocomplete="off" [matDatepicker]="picker2" formControlName="checkOutDate" placeholder="Check out date">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col align-self-center mt-3 w-75 mr-5">
+          <mat-label>Number of persons</mat-label>
+          <input matInput type="text" autocomplete="off" formControlName="numberOfPersons" placeholder="Number Of Persons">
+        </mat-form-field>
+        <button class="col w-100 align-self-center" color="primary" [disabled]=searchForm.invalid mat-raised-button
+          (click)="search()">
+          <mat-icon>search</mat-icon>Search
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

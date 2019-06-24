@@ -5,8 +5,8 @@ export class Reservation {
     private id: number;
     private accommodationId: number;
     private userId: number;
-    private startDate: string;
-    private endDate: string;
+    private startDate: Date;
+    private endDate: Date;
     private realized: string;
     private price: number;
     private ReservationRating: ReservationRating;
@@ -39,17 +39,17 @@ export class Reservation {
 
     /**
      * Getter $startDate
-     * @return {string}
+     * @return {Date}
      */
-    public get $startDate(): string {
+    public get $startDate(): Date {
         return this.startDate;
     }
 
     /**
      * Getter $endDate
-     * @return {string}
+     * @return {Date}
      */
-    public get $endDate(): string {
+    public get $endDate(): Date {
         return this.endDate;
     }
 
@@ -111,17 +111,17 @@ export class Reservation {
 
     /**
      * Setter $startDate
-     * @param {string} value
+     * @param {Date} value
      */
-    public set $startDate(value: string) {
+    public set $startDate(value: Date) {
         this.startDate = value;
     }
 
     /**
      * Setter $endDate
-     * @param {string} value
+     * @param {Date} value
      */
-    public set $endDate(value: string) {
+    public set $endDate(value: Date) {
         this.endDate = value;
     }
 
