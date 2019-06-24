@@ -10,7 +10,7 @@ export class Reservation {
     private realized: string;
     private price: number;
     private ReservationRating: ReservationRating;
-    private Message: Message;
+    private messages: Array<Message>;
 
 
     /**
@@ -63,7 +63,7 @@ export class Reservation {
 
     /**
      * Getter $price
-     * @return {string}
+     * @return {number}
      */
     public get $price(): number {
         return this.price;
@@ -78,11 +78,11 @@ export class Reservation {
     }
 
     /**
-     * Getter $Message
-     * @return {Message}
+     * Getter $messages
+     * @return {Array<Message>}
      */
-    public get $Message(): Message {
-        return this.Message;
+    public get $messages(): Array<Message> {
+        return this.messages;
     }
 
     /**
@@ -135,7 +135,7 @@ export class Reservation {
 
     /**
      * Setter $price
-     * @param {string} value
+     * @param {number} value
      */
     public set $price(value: number) {
         this.price = value;
@@ -150,11 +150,11 @@ export class Reservation {
     }
 
     /**
-     * Setter $Message
-     * @param {Message} value
+     * Setter $messages
+     * @param {Array<Message>} value
      */
-    public set $Message(value: Message) {
-        this.Message = value;
+    public set $messages(value: Array<Message>) {
+        this.messages = value;
     }
 
 }

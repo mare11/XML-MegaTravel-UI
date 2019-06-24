@@ -23,7 +23,7 @@ export class AuthenticationService {
   }
 
   removeUserState() {
-    localStorage.removeItem(this.userKey);
+    localStorage.clear();
     this.onSubject.next({ key: this.userKey, value: null });
   }
 
@@ -50,9 +50,5 @@ export class AuthenticationService {
 
   login(authRequest: LoginUser) {
     return this.http.post('/api/authentication-service/authentication', authRequest);
-  }
-
-  logout() {
-    return this.http.get('/logout_user');
   }
 }

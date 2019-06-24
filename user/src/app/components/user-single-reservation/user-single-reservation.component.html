@@ -1,16 +1,19 @@
-<div class="row ml-1">
+<div class="row d-flex justify-content-around">
   <div class="d-flex align-items-center">
     <h5 class="font-weight-bold"><span
         class="badge badge-primary">{{reservation.accommodation.accommodationType.typeName}}</span></h5>
   </div>
-  <div class="star-ratings-css ml-2" *ngIf="reservation.accommodation.category > 0">
+  <div class="star-ratings-css" *ngIf="reservation.accommodation.category > 0">
     <span [ngStyle]="{'width': ((reservation.accommodation.category * 100) / 5) + '%'}"
-      class="text-warning align-middle">
+      class="text-warning">
       ★★★★★
     </span>
   </div>
   <h5 class="card-text ml-2 align-middle" *ngIf="reservation.accommodation.category === 0">
     <span class="badge badge-warning">uncategorized</span>
+  </h5>
+  <h5 class="card-text ml-2 align-middle" *ngIf="reservation.realized">
+    <span class="badge badge-info">realized</span>
   </h5>
 </div>
 <mat-divider class="my-2"></mat-divider>
@@ -29,32 +32,3 @@
   Journey price: {{reservation.price}}
   <span><i class="fa fa-eur"></i></span>
 </p>
-<mat-divider class="my-3"></mat-divider>
-<div *ngIf="reservation.state === 2">
-  <div class="row d-flex justify-content-start m-1">
-    <button class="btn btn-primary mr-2" type="button" (click)="isCollapsed = !isCollapsed">
-      Message &nbsp; <i class="fa fa-envelope-o"></i>
-    </button>
-    <span matTooltip="The allowed time for canceling the reservation has expired!" 
-          [matTooltipDisabled]="reservation.canCancel">
-      <button class="btn btn-danger" type="button" (click)="cancelReservation(reservation)" [disabled]="!reservation.canCancel">
-        Cancel &nbsp; <i class="fa fa-calendar-times-o"></i>
-      </button>
-    </span>
-  </div>
-  <div id="collapseExample" *ngIf="isCollapsed">
-    <div class="card bg-light text-center">
-      <div class="card-body">
-        <div class="row d-flex justify-content-center m-1">
-          <textarea class="w-100" type="text" rows="5" maxlength="200" placeholder="Type a message..." [(ngModel)]="message"></textarea>
-        </div>
-        <div class="row d-flex justify-content-end m-1">
-          <mat-hint>{{message.length}} / 200</mat-hint>
-        </div>
-        <div class="row d-flex justify-content-start m-1">
-          <button type="button" class="btn btn-danger" (click)="sendMessage(reservation); isCollapsed = !isCollapsed;">Send &nbsp; <i class="fa fa-paper-plane"></i></button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>

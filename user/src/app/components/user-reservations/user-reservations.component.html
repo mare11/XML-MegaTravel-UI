@@ -1,36 +1,44 @@
-<div *ngIf="dataLoaded">
-  <div *ngIf="reservations && reservations.length > 0" class="row d-flex justify-content-center m-3">
-    <div class="col-sm-4 text-center align-self-center">
-      <h4 class="display-4">Upcoming reservations</h4>
-    </div>
-    <div class="col-sm-4 text-center align-self-center">
-      <h4 class="display-4">Current active reservations</h4>
-    </div>
-    <div class="col-sm-4 text-center align-self-center">
-      <h4 class="display-4">Past reservations</h4><br>
-    </div>
+<div *ngIf="reservations && reservations.length > 0" class="row d-flex justify-content-center m-3">
+  <div class="col-sm-4 text-center align-self-center">
+    <h4 class="display-4">Upcoming reservations</h4>
   </div>
-  <div *ngIf="reservations && reservations.length > 0" class="row d-flex justify-content-center m-3">
-    <div class="col-sm-4 list-group">
-      <div class="list-group-item list-group-item-success flex-column align-items-stretch my-2"
-        *ngFor="let reservation of reservations | reservationsFilter : 2; let i = index;">
-        <app-user-single-reservation [reservation]="reservation"></app-user-single-reservation>
-      </div>
-    </div>
-    <div class="col-sm-4 list-group">
-      <div class="list-group-item list-group-item-warning flex-column align-items-stretch my-2"
-        *ngFor="let reservation of reservations | reservationsFilter : 1; let i = index;">
-        <app-user-single-reservation [reservation]="reservation"></app-user-single-reservation>
-      </div>
-    </div>
-    <div class="col-sm-4 list-group">
-      <div class="list-group-item list-group-item-danger flex-column align-items-stretch my-2"
-          *ngFor="let reservation of reservations | reservationsFilter : 0; let i = index;">
-          <app-user-single-reservation [reservation]="reservation"></app-user-single-reservation>
-      </div>
-    </div>
+  <div class="col-sm-4 text-center align-self-center">
+    <h4 class="display-4">Current active reservations</h4>
+  </div>
+  <div class="col-sm-4 text-center align-self-center">
+    <h4 class="display-4">Past reservations</h4><br>
+  </div>
 </div>
-  <div *ngIf="!reservations || reservations.length === 0">
-    <h3>You don't have any reservations yet!</h3>
+<div *ngIf="reservations && reservations.length > 0" class="row d-flex justify-content-center m-3">
+<div class="col-sm-4 list-group">
+  <div class="list-group-item list-group-item-success flex-column align-items-stretch my-2"
+    *ngFor="let reservation of reservations | reservationsFilter : 2;">
+    <app-user-single-reservation [reservation]="reservation"></app-user-single-reservation>
+    <mat-divider class="my-3"></mat-divider>
+      <div class="row d-flex justify-content-start m-1">
+        <span matTooltip="Reservation is forbidden for cancelling or the allowed time for canceling has expired!"
+          [matTooltipDisabled]="reservation.canCancel">
+          <button class="btn btn-danger" type="button" (click)="cancelReservation(reservation)"
+            [disabled]="!reservation.canCancel">
+            Cancel &nbsp; <i class="fa fa-calendar-times-o"></i>
+          </button>
+        </span>
+      </div>
   </div>
+</div>
+<div class="col-sm-4 list-group">
+  <div class="list-group-item list-group-item-warning flex-column align-items-stretch my-2"
+    *ngFor="let reservation of reservations | reservationsFilter : 1;">
+    <app-user-single-reservation [reservation]="reservation"></app-user-single-reservation>
+  </div>
+</div>
+<div class="col-sm-4 list-group">
+  <div class="list-group-item list-group-item-danger flex-column align-items-stretch my-2"
+      *ngFor="let reservation of reservations | reservationsFilter : 0;">
+      <app-user-single-reservation [reservation]="reservation"></app-user-single-reservation>
+  </div>
+</div>
+</div>
+<div class="row justify-content-center align-self-center mt-5" *ngIf="!reservations || reservations.length === 0">
+  <h3 class="display-4">You don't have any reservations yet!</h3>
 </div>
