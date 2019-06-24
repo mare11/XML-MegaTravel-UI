@@ -12,13 +12,13 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) {
     if (localStorage.getItem(this.userKey)) {
-      this.onSubject.next({key: this.userKey, value: JSON.parse(localStorage.getItem(this.userKey))});
+      this.onSubject.next({ key: this.userKey, value: JSON.parse(localStorage.getItem(this.userKey)) });
     }
   }
 
   setUserState(userState: string) {
     localStorage.setItem(this.userKey, JSON.stringify(userState));
-    this.onSubject.next({key: this.userKey, value: userState});
+    this.onSubject.next({ key: this.userKey, value: userState });
   }
 
   removeUserState() {
@@ -40,29 +40,8 @@ export class AuthenticationService {
     return JSON.parse(localStorage.getItem(this.userKey)).username;
   }
 
-  isUserEnabled(): string {
-    if (!JSON.parse(localStorage.getItem(this.userKey))) {
-      return null;
-    }
-    return JSON.parse(localStorage.getItem(this.userKey)).enabled;
-  }
-
-  getAuthority(): string {
-    if (!JSON.parse(localStorage.getItem(this.userKey))) {
-      return null;
-    }
-    return JSON.parse(localStorage.getItem(this.userKey)).authority;
-  }
-
-  getProfileImage(): string {
-    if (!JSON.parse(localStorage.getItem(this.userKey))) {
-      return null;
-    }
-    return JSON.parse(localStorage.getItem(this.userKey)).image;
-  }
-
   login(authRequest: any) {
-    return this.http.post('/login', authRequest);
+    return this.http.post('/api/authentication-service/authentication', authRequest);
   }
 
   logout() {

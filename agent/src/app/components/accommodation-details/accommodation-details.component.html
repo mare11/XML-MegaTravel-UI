@@ -1,0 +1,67 @@
+<button mat-button (click)="goBack()">
+    <mat-icon>arrow_back_ios</mat-icon>Back
+</button>
+<mat-tab-group mat-stretch-tabs [selectedIndex]="selectedIndex">
+    <mat-tab label="Details">
+        <h6 class="display-4 d-inline-block">{{accommodation.accommodationType.typeName}}</h6>
+        <div class="star-ratings-css p-4" *ngIf="accommodation.category > 0">
+            <span [ngStyle]="{'width': ((accommodation.category * 100) / 5) + '%'}" class="text-warning align-middle">
+                ★★★★★
+            </span>
+        </div>
+        <h5 class="card-text align-middle d-inline-block p-4" *ngIf="accommodation.category === 0"><span
+                class="badge badge-warning">uncategorized</span></h5>
+        <h5>for {{accommodation.numberOfPersons}} person(s)</h5>
+        <p class="font-weight-normal">{{accommodation.location.address}}, {{accommodation.location.city}},
+            {{accommodation.location.country}}</p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4 d-inline-block">
+                    <h4 class="d-inline-block">Additional services</h4>
+                    <button type="button" class="btn btn-primary float-right" (click)="openDialog('SERVICE')">Change
+                        services</button>
+                    <ul class="list-group list-group-flush border-right mt-1">
+                        <li class="list-group-item" *ngFor="let service of accommodation.additionalServices">
+                            {{service.additionalServiceName}}
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4 d-inline-block">
+                    <h4 class="d-inline-block">Period prices</h4>
+                    <button type="button" class="btn btn-primary float-right" (click)="openDialog('PERIOD')">Create
+                        period</button>
+                    <ul class="list-group list-group-flush border-right mt-1">
+                        <li class="list-group-item" *ngFor="let period of accommodation.periodPrice">
+                            {{period.startDate}}
+                            &nbsp;<i class="fa fa-arrows-h"></i>&nbsp;
+                            {{period.endDate}}
+                            &nbsp;
+                            ------->
+                            &nbsp;
+                            <b>{{period.price}}€</b>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4 d-inline-block">
+                    <h4 class="d-inline-block">Unavailabilities</h4>
+                    <button type="button" class="btn btn-primary float-right"
+                        (click)="openDialog('UNAVAILABILITY')">Create
+                        unavailability</button>
+                    <ul class="list-group list-group-flush border-right mt-1">
+                        <li class="list-group-item" *ngFor="let unv of accommodation.unavailability">
+                            {{unv.startDate}}
+                            &nbsp;<i class="fa fa-arrows-h"></i>&nbsp;
+                            {{unv.endDate}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Reservations">
+        <h1>Here go reservations and messages</h1>
+    </mat-tab>
+    <mat-tab label="Ratings">
+        <h1>Here go ratings</h1>
+    </mat-tab>
+</mat-tab-group>

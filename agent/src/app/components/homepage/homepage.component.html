@@ -1,0 +1,25 @@
+<mat-menu #menu="matMenu">
+  <mat-divider></mat-divider>
+  <a mat-menu-item class="bg-light text-secondary" (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon> Logout
+  </a>
+</mat-menu>
+<div class="row mr-3 d-flex justify-content-end">
+  <button mat-button [matMenuTriggerFor]="menu" class="btn btn-outline-secondary text-dark">
+    <mat-icon class="mr-2">person</mat-icon>
+    {{username}}
+  </button>
+</div>
+<div style="padding-top: 10px">
+  <mat-tab-group mat-stretch-tabs [selectedIndex]="selectedIndex">
+    <mat-tab disabled>
+      <app-accommodations [accommodations]="accommodations" [accommodationTypes]="accommodationTypes"
+        [additionalServices]="additionalServices" *ngIf="accommodations && accommodationTypes && additionalServices">
+      </app-accommodations>
+    </mat-tab>
+    <mat-tab disabled>
+      <app-accommodation-details [accommodation]="accommodation" [additionalServices]="additionalServices"
+        *ngIf="accommodation && additionalServices"></app-accommodation-details>
+    </mat-tab>
+  </mat-tab-group>
+</div>

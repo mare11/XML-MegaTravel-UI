@@ -1,0 +1,47 @@
+<h1 mat-dialog-title>Create {{update | lowercase}}</h1>
+<mat-dialog-content [formGroup]="updateForm" class="fields-container">
+  <div *ngIf="update.valueOf() === 'SERVICE'">
+    <h6>Update additional services</h6>
+    <div formArrayName="additionalServices"
+      *ngFor="let service of updateForm.controls.additionalServices.controls; let i = index"
+      class="col-6 d-inline-block">
+      <mat-checkbox [formControlName]="i">{{allServices[i].additionalServiceName}}</mat-checkbox>
+    </div>
+  </div>
+  <div class="row" *ngIf="update.valueOf() === 'PERIOD' || update.valueOf() === 'UNAVAILABILITY'">
+    <mat-form-field class="col">
+      <input matInput [min]="minDate" [matDatepicker]="startDatePicker" placeholder="Start date"
+        formControlName="startDate">
+      <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startDatePicker></mat-datepicker>
+      <mat-error
+        *ngIf="updateForm.get('startDate').invalid && (updateForm.get('startDate').dirty || updateForm.get('startDate').touched)">
+        <div *ngIf="updateForm.get('startDate').errors.required">Start date is required.</div>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col">
+      <input matInput [min]="minDate" [matDatepicker]="endDatePicker" placeholder="End date" formControlName="endDate">
+      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #endDatePicker></mat-datepicker>
+      <mat-error
+        *ngIf="updateForm.get('endDate').invalid && (updateForm.get('endDate').dirty || updateForm.get('endDate').touched)">
+        <div *ngIf="updateForm.get('endDate').errors.required">End date is required.</div>
+        <div *ngIf="updateForm.get('endDate').errors.minDate">End date is after start date.</div>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <mat-form-field *ngIf="update.valueOf() === 'PERIOD'">
+    <input matInput type="number" placeholder="Price" formControlName="price">
+    <span matSuffix>€</span>
+    <mat-error
+      *ngIf="updateForm.get('price').invalid && (updateForm.get('price').dirty || updateForm.get('price').touched)">
+      <div *ngIf="updateForm.get('price').errors.required">Price is required.</div>
+      <div *ngIf="updateForm.get('price').errors.min">Price is positive.</div>
+    </mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="center" class="mt-5">
+  <button mat-raised-button color="primary" type="submit" [mat-dialog-close]="this.updateForm.value"
+    [disabled]="updateForm.invalid && (update.valueOf() === 'PERIOD' || update.valueOf() === 'UNAVAILABILITY')">Submit</button>
+  <button mat-raised-button [mat-dialog-close]>Cancel</button>
+</mat-dialog-actions>

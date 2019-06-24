@@ -1,3 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.fields-container {
+    display: flex;
+    flex-direction: column;
+}
+  
+.fields-container > * {
+    width: 100%;
+}
+
+.star-ratings-css {
+    font-size: 22px;
+    display: inline-block;
+    word-wrap: normal;
+}
+
+.star-ratings-css > span {
+    display: inline-block;
+    overflow: hidden;
+}

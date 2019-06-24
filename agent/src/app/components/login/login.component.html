@@ -1,0 +1,25 @@
+<div style="text-align:center">
+  <h1 class="display-1 text-center align-self-center m-5">Agent Login Page</h1>
+  <div [formGroup]="loginForm">
+    <div class="row d-flex justify-content-center m-2">
+      <mat-form-field appearance="outline" class="w-25">
+        <mat-label>Username</mat-label>
+        <input matInput type="text" formControlName="username" placeholder="Username" autofocus>
+      </mat-form-field>
+    </div>
+    <br>
+    <div class="row d-flex justify-content-center m-2">
+      <mat-form-field appearance="outline" class="w-25">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" placeholder="Password">
+        <mat-error *ngIf="loginForm.get('password').errors && loginForm.get('password').errors.loginFailed">
+          Invalid username and/or password.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <br>
+  <div class="row d-flex justify-content-center m-2">
+    <button class="btn btn-primary w-25" type="submit" (click)="loginAgent()">Login</button>
+  </div>
+</div>

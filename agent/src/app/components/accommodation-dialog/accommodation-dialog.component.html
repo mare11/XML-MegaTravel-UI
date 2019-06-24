@@ -1,0 +1,88 @@
+<div>
+  <h1 mat-dialog-title>Create accommodation</h1>
+  <mat-dialog-content [formGroup]="accommodationForm" class="fields-container">
+    <div class="row">
+      <mat-form-field class="col">
+        <mat-select placeholder="Type" formControlName="accommodationType">
+          <mat-option *ngFor="let type of accommodationTypes" [value]="type">
+            {{type.typeName}}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="accommodationForm.get('accommodationType').invalid && (accommodationForm.get('accommodationType').dirty || accommodationForm.get('accommodationType').touched)">
+          <div *ngIf="accommodationForm.get('accommodationType').errors.required"> Type is required.</div>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col">
+        <mat-select placeholder="Category" formControlName="category">
+          <mat-option *ngFor="let cat of categories" [value]="cat">
+            {{cat}}
+          </mat-option>
+        </mat-select>
+        <span matSuffix>★</span>
+        <mat-error
+          *ngIf="accommodationForm.get('category').invalid && (accommodationForm.get('category').dirty || accommodationForm.get('category').touched)">
+          <div *ngIf="accommodationForm.get('category').errors.required">Category is required.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Location" id="location-input" formControlName="location">
+      <mat-error
+        *ngIf="accommodationForm.get('location').invalid && (accommodationForm.get('location').dirty || accommodationForm.get('location').touched)">
+        <div *ngIf="accommodationForm.get('location').errors.required">Location is required.</div>
+      </mat-error>
+    </mat-form-field>
+    <div class="row">
+      <mat-form-field class="col">
+        <input matInput type="number" placeholder="Number of persons" formControlName="numberOfPersons">
+        <mat-error
+          *ngIf="accommodationForm.get('numberOfPersons').invalid && (accommodationForm.get('numberOfPersons').dirty || accommodationForm.get('numberOfPersons').touched)">
+          <div *ngIf="accommodationForm.get('numberOfPersons').errors.required">Number is required.</div>
+          <div *ngIf="accommodationForm.get('numberOfPersons').errors.min">Number is positive.</div>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col">
+        <input matInput type="number" placeholder="Default price" formControlName="defaultPrice">
+        <span matSuffix>€</span>
+        <mat-error
+          *ngIf="accommodationForm.get('defaultPrice').invalid && (accommodationForm.get('defaultPrice').dirty || accommodationForm.get('defaultPrice').touched)">
+          <div *ngIf="accommodationForm.get('defaultPrice').errors.required">Price is required.</div>
+          <div *ngIf="accommodationForm.get('defaultPrice').errors.min">Price is positive.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <br>
+    <div>
+      <label for="slider" class="font-weight-normal">Allowed cancellation</label>
+      &nbsp;&nbsp;
+      <mat-slide-toggle formControlName="freeCancellation" id="slider">
+        <span class="font-weight-normal">{{accommodationForm.controls.freeCancellation.value? 'ON' : 'OFF'}}</span>
+      </mat-slide-toggle>
+    </div>
+    <mat-form-field *ngIf="accommodationForm.controls.freeCancellation.value">
+      <input matInput type="number" placeholder="Cancellation days" formControlName="cancellationDays">
+      <mat-error
+        *ngIf="accommodationForm.get('cancellationDays').invalid && (accommodationForm.get('cancellationDays').dirty || accommodationForm.get('cancellationDays').touched)">
+        <div *ngIf="accommodationForm.get('cancellationDays').errors.required">Number is required.</div>
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <h6>Additional services</h6>
+    <div formArrayName="additionalServices"
+      *ngFor="let service of accommodationForm.controls.additionalServices.controls; let i = index"
+      class="col-6 d-inline-block">
+      <mat-checkbox [formControlName]="i">{{additionalServices[i].additionalServiceName}}</mat-checkbox>
+    </div>
+    <br>
+    <mat-form-field>
+      <textarea matInput type="text" rows="3" maxlength="200" formControlName="description"
+        placeholder="Description"></textarea>
+      <mat-hint align="end">{{accommodationForm.controls.description.value.length}} / 200</mat-hint>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center" class="mt-5">
+    <button mat-raised-button color="primary" type="submit" (click)="createAccommodation()"
+      [disabled]="accommodationForm.invalid">Submit</button>
+    <button mat-raised-button [mat-dialog-close]>Cancel</button>
+  </mat-dialog-actions>
