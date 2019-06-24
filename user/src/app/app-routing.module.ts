@@ -10,9 +10,11 @@ import { UserReservationsComponent } from './components/user-reservations/user-r
 import { UserSingleReservationComponent } from './components/user-single-reservation/user-single-reservation.component';
 import { UserMessagesComponent } from './components/user-messages/user-messages.component';
 import { UserInfoComponent } from './components/user-info/user-info.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
 
 const routes: Routes = [
-  { path: 'accommodations', component: AccommodationsComponent},
+  { path: '', component: HomepageComponent },
+  { path: 'accommodations', component: AccommodationsComponent },
   { path: 'registration/verify', component: VerifyUserComponent },
   { path: 'users/profile', component: UserProfileComponent }
 ];
@@ -32,4 +34,5 @@ export const RoutingComponents = [AccommodationsComponent,
                                   UserReservationsComponent,
                                   UserSingleReservationComponent,
                                   UserInfoComponent,
-                                  UserMessagesComponent];
+                                  UserMessagesComponent,
+                                  HomepageComponent];

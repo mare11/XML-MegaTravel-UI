@@ -9,9 +9,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
 import { SnackBar } from './utils';
-import { UserSingleReservationComponent } from './components/user-single-reservation/user-single-reservation.component';
 import { ReservationsFilterPipe } from './pipes/reservations-filter/reservations-filter.pipe';
-import { UserInfoComponent } from './components/user-info/user-info.component';
 import { UserMessagesComponent } from './components/user-messages/user-messages.component';
 import { UserReservationsComponent } from './components/user-reservations/user-reservations.component';
 
