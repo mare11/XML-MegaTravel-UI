@@ -18,3 +18,14 @@
 .mat-tooltip {
     font-size: 100% !important;
 }
+
+.star-ratings-css {
+    font-size: 22px;
+    display: inline-block;
+    word-wrap: normal;
+}
+
+.star-ratings-css > span {
+    display: inline-block;
+    overflow: hidden;
+}

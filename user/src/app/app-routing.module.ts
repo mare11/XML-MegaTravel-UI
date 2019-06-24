@@ -7,6 +7,9 @@ import { RegistrationDialogComponent } from './components/registration-dialog/re
 import { ReservationDialogComponent } from './components/reservation-dialog/reservation-dialog.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserReservationsComponent } from './components/user-reservations/user-reservations.component';
+import { UserSingleReservationComponent } from './components/user-single-reservation/user-single-reservation.component';
+import { UserMessagesComponent } from './components/user-messages/user-messages.component';
+import { UserInfoComponent } from './components/user-info/user-info.component';
 
 const routes: Routes = [
   { path: 'accommodations', component: AccommodationsComponent},
@@ -26,4 +29,7 @@ export const RoutingComponents = [AccommodationsComponent,
                                   RegistrationDialogComponent,
                                   ReservationDialogComponent,
                                   UserProfileComponent,
-                                  UserReservationsComponent];
+                                  UserReservationsComponent,
+                                  UserSingleReservationComponent,
+                                  UserInfoComponent,
+                                  UserMessagesComponent];

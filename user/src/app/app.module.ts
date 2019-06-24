@@ -12,14 +12,14 @@ import { SnackBar } from './utils';
 import { UserSingleReservationComponent } from './components/user-single-reservation/user-single-reservation.component';
 import { ReservationsFilterPipe } from './pipes/reservations-filter/reservations-filter.pipe';
 import { UserInfoComponent } from './components/user-info/user-info.component';
+import { UserMessagesComponent } from './components/user-messages/user-messages.component';
+import { UserReservationsComponent } from './components/user-reservations/user-reservations.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RoutingComponents,
-    UserSingleReservationComponent,
-    ReservationsFilterPipe,
-    UserInfoComponent
+    ReservationsFilterPipe
   ],
   entryComponents: [
     RoutingComponents
@@ -34,7 +34,7 @@ import { UserInfoComponent } from './components/user-info/user-info.component';
     FormsModule,
     SnackBar
   ],
-  providers: [],
+  providers: [UserReservationsComponent, UserMessagesComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
