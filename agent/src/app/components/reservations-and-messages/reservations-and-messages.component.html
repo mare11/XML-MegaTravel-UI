@@ -1,0 +1,112 @@
+<div class="container-fluid" *ngIf="reservations && reservations.length > 0">
+  <div class="row">
+    <div class="col-md-3 ml-5 mt-3 messages-tab-container" style="height: 70vh;">
+      <div class="row mt-3 mb-2">
+        <div class="col text-center align-self-center">
+          <h2>Reservations</h2>
+        </div>
+      </div>
+      <div class="list-group">
+        <button class="list-group-item flex-column align-items-stretch my-2" *ngFor="let reservation of reservations"
+          [ngClass]="{'list-group-item-success': reservation.state === 2,
+                          'list-group-item-warning': reservation.state === 1,
+                          'list-group-item-danger': reservation.state === 0}"
+          (click)="messages = reservation.message; selectedReservationId = reservation.id">
+          <div class="row d-flex justify-content-center my-1">
+            <p class="font-weight-bold">
+              Period: {{reservation.startDate | date }} &nbsp;<i class="fa fa-arrows-h"></i>&nbsp; {{reservation.endDate | date }}
+            </p>
+          </div>
+          <div class="row d-flex justify-content-around my-1">
+            <p class="font-weight-bold align-middle">
+              Price: {{reservation.price}} <span><i class="fa fa-eur"></i></span>
+            </p>
+            <button class="btn btn-primary" *ngIf="reservation.state !== 2 && !reservation.realized" (click)="realizeReservation(reservation.id)">
+              Confirm realization
+            </button>
+            <h5 class="card-text" *ngIf="reservation.state !== 2 && reservation.realized">
+              <span class="badge badge-info">realized</span>
+            </h5>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="col-md-8 ml-5 mt-3">
+      <div #messagesContainer [scrollTop]="messagesContainer.scrollHeight" class="messages-tab-container"
+        [ngStyle]="{'height': isCollapsed ? '45vh' : '65vh'}">
+        <div *ngFor="let message of messages" class="d-flex" [ngClass]="{'justify-content-start': message.direction === 0,
+                              'justify-content-end': message.direction === 1}">
+          <div class="card m-2" style="width: 25rem; max-width: 25rem;" [ngClass]="{'border-danger': message.direction === 0,
+                              'border-info': message.direction === 1}">
+            <div class="card-header">
+              <div class="d-flex mx-1" [ngClass]="{'justify-content-end': message.direction === 0,
+                                                'justify-content-start': message.direction === 1}">
+                <small class="text-muted">
+                  <i class="fa fa-clock-o"></i> {{ message.timestamp | date:'medium' }}
+                </small>
+              </div>
+              <div class="row" *ngIf="message.direction === 0">
+                <img src="http://placehold.it/60/FA6F57/FFFFFF&text=me" alt="User Avatar" class="rounded-circle mx-3" />
+                <div class="text-center align-self-center mx-2">
+                  <strong>{{ username }}</strong>
+                </div>
+              </div>
+              <div class="row d-flex flex-row-reverse" *ngIf="message.direction === 1">
+                <img src="http://placehold.it/70/55C1E7/FFFFFF&text=U" alt="Agent Avatar" class="rounded-circle mx-3" />
+                <div class="text-center align-self-center mx-2">
+                  <strong>USER</strong>
+                </div>
+              </div>
+            </div>
+            <div class="card-body" [ngClass]="{'text-danger': message.direction === 0,
+                          'text-info': message.direction === 1}">
+              <p class="card-text">{{message.content}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center align-self-center mt-5" *ngIf="!messages || messages.length === 0">
+          <h3 class="display-4">Start a conversation...</h3>
+        </div>
+      </div>
+      <div class="mt-3">
+        <div class="row d-flex justify-content-center" *ngIf="!isCollapsed">
+          <button class="btn btn-primary mr-2 w-25" type="button" (click)="isCollapsed = !isCollapsed">
+            New Message &nbsp; <i class="fa fa-envelope-o"></i>
+          </button>
+        </div>
+        <div id="collapseExample" *ngIf="isCollapsed">
+          <div class="card bg-light text-center">
+            <div class="card-body">
+              <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                  <div class="row d-flex justify-content-end">
+                    <textarea class="form-control custom-control" type="text" rows="4" maxlength="200"
+                      placeholder="Type a message..." style="resize:none" [(ngModel)]="newMessage"></textarea>
+                  </div>
+                  <div class="row d-flex justify-content-end m-1">
+                    <mat-hint>{{newMessage.length}} / 200</mat-hint>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="row d-flex justify-content-center">
+                    <button class="w-75 btn btn-warning input-group-addon" [disabled]="newMessage.length === 0"
+                      (click)="sendMessage(selectedReservationId); isCollapsed = !isCollapsed;">Send
+                      &nbsp; <i class="fa fa-paper-plane"></i></button>
+                  </div>
+                  <div class="row d-flex justify-content-center mt-2">
+                    <button class="w-75 btn btn-danger input-group-addon" (click)="isCollapsed = !isCollapsed;">Cancel
+                      &nbsp;
+                      <i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row justify-content-center align-self-center mt-5" *ngIf="!reservations || reservations.length === 0">
+  <h3 class="display-4">There are no any reservations for your accommodation yet!</h3>
+</div>

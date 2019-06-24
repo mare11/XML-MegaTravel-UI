@@ -31,3 +31,9 @@ export enum UpdateAccommodation {
     PERIOD,
     UNAVAILABILITY
 }
+
+export enum ReservationState {
+    PASSED,
+    IN_PROGRESS,
+    ACTIVE
+}

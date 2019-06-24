@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from './material';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,6 +14,7 @@ import { AccommodationsComponent } from './components/accommodations/accommodati
 import { AccommodationDetailsComponent } from './components/accommodation-details/accommodation-details.component';
 import { AccommodationDialogComponent } from './components/accommodation-dialog/accommodation-dialog.component';
 import { UpdateDialogComponent } from './components/update-dialog/update-dialog.component';
+import { ReservationsAndMessagesComponent } from './components/reservations-and-messages/reservations-and-messages.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { UpdateDialogComponent } from './components/update-dialog/update-dialog.
     AccommodationsComponent,
     AccommodationDetailsComponent,
     AccommodationDialogComponent,
-    UpdateDialogComponent
+    UpdateDialogComponent,
+    ReservationsAndMessagesComponent
   ],
   entryComponents: [
     AccommodationDialogComponent,
@@ -33,6 +35,7 @@ import { UpdateDialogComponent } from './components/update-dialog/update-dialog.
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     MaterialModule,
     HttpClientModule,
     BrowserAnimationsModule,

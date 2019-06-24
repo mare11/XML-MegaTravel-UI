@@ -6,6 +6,7 @@ import { UpdateDialogComponent } from '../update-dialog/update-dialog.component'
 import { Accommodation } from 'src/app/models/Accommodation';
 import { AccommodationService } from 'src/app/services/accommodation/accommodation.service';
 import { AdditionalService } from 'src/app/models/AdditionalService';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-accommodation-details',
@@ -16,12 +17,14 @@ export class AccommodationDetailsComponent implements OnInit {
 
   constructor(
     private homepageComponent: HomepageComponent, private dialog: MatDialog, private snackBar: SnackBar,
-    private accommodationService: AccommodationService) { }
+    private accommodationService: AccommodationService, private authenticationService: AuthenticationService) { }
 
   @Input() accommodation: Accommodation;
   @Input() additionalServices: AdditionalService[];
+  private username: string;
 
   ngOnInit() {
+    this.username = this.authenticationService.getUsername();
   }
 
   goBack() {

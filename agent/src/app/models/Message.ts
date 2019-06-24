@@ -2,12 +2,12 @@ import { DirectionEnum } from './DirectionEnum';
 
 export class Message {
     content: string;
-    dateTime: Date;
+    timestamp: Date;
     direction: DirectionEnum;
 
-    constructor(content, dateTime, direction) {
+    constructor(content, timestamp, direction) {
         this.content = content;
-        this.dateTime = dateTime;
+        this.timestamp = timestamp;
         this.direction = direction;
     }
 }

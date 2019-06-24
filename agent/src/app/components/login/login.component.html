@@ -20,6 +20,7 @@
   </div>
   <br>
   <div class="row d-flex justify-content-center m-2">
-    <button class="btn btn-primary w-25" type="submit" (click)="loginAgent()">Login</button>
+    <button class="btn btn-primary w-25" type="submit" (click)="loginAgent()" [disabled]="loggingInProgress">
+      <span><img src="assets/images/Spinner-1s-32px.gif" *ngIf="loggingInProgress"></span> Login</button>
   </div>
 </div>

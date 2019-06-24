@@ -1,5 +1,6 @@
 import { ReservationRating } from './ReservationRating';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { ReservationState } from '../utils';
 
 export class Reservation {
     id: number;
@@ -10,8 +11,10 @@ export class Reservation {
     realized: boolean;
     reservationRating: ReservationRating;
     message: Message[];
+    state: ReservationState;
+    price: number;
 
-    constructor(id, accommodationId, userId, startDate, endDate, realized, rating, message) {
+    constructor(id, accommodationId, userId, startDate, endDate, realized, rating, message, state, price) {
         this.id = id;
         this.accommodationId = accommodationId;
         this.userId = userId;
@@ -20,5 +23,7 @@ export class Reservation {
         this.realized = realized;
         this.reservationRating = rating;
         this.message = message;
+        this.state = state;
+        this.price = price;
     }
 }

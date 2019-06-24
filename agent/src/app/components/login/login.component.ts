@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup;
   enterListener: any;
+  loggingInProgress = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,16 +41,19 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   loginAgent() {
+    this.loggingInProgress = true;
     const loginAgent = new LoginAgent(this.loginForm.value.username, this.loginForm.value.password);
     this.authenticationService.login(loginAgent).subscribe(
       (data: any) => {
         this.authenticationService.setUserState(data);
         this.router.navigate(['/homepage']);
         this.snackBar.showSnackBar('Logged in successfully!');
+        this.loggingInProgress = false;
       },
       () => {
         this.loginForm.get('username').setErrors({ loginFailed: true });
         this.loginForm.get('password').setErrors({ loginFailed: true });
+        this.loggingInProgress = false;
       }
     );
   }
