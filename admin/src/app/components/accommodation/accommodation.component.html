@@ -1,3 +1,45 @@
-<p>
-  accommodation works!
-</p>
+<div style="padding-top: 10px" class="container-fluid">
+  <div class="row">
+    <div class="col border-right">
+      <h3 class="d-inline-block">Accommodation Types</h3>
+      <button type="button" class="btn btn-primary float-right" (click)="addAccommodationType()">Create type</button>
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Type name</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr scope="row" *ngFor="let type of accommodationTypes">
+            <td>{{type.typeName}}</td>
+            <td>
+              <button type="button" class="btn btn-danger" (click)="deleteAccommodationType(type)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <h3 class="d-inline-block">Additional Services</h3>
+      <button type="button" class="btn btn-primary float-right" (click)="addAdditionalService()">Create
+        service</button>
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Service name</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr scope="row" *ngFor="let service of additionalServices">
+            <td>{{service.additionalServiceName}}</td>
+            <td>
+              <button type="button" class="btn btn-danger" (click)="deleteAdditionalService(service)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { LoginAdmin } from 'src/app/models/LoginAdmin';
 import { Router } from '@angular/router';
+import { SnackBar } from 'src/app/utils';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
-    private router: Router) {
+    private router: Router, private snackBar: SnackBar) {
 
     this.enterListener = (event) => {
       if (event.keyCode === 13) {
@@ -26,6 +27,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (this.authenticationService.getUsername()) {
+      this.router.navigate(['/homepage']);
+    }
     this.loginForm = this.formBuilder.group({ username: [], password: [] });
     document.addEventListener('keyup', this.enterListener);
   }
@@ -40,6 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       (data: any) => {
         this.authenticationService.setUserState(data);
         this.router.navigate(['/homepage']);
+        this.snackBar.showSnackBar('Logged in successfully!');
       },
       () => {
         this.loginForm.get('username').setErrors({ loginFailed: true });
