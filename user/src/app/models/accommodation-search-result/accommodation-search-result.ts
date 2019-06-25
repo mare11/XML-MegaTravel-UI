@@ -15,9 +15,10 @@ export class AccommodationSearchResult {
     private location: Location;
     private priceForRequestedPeriod: number;
     private distance: number;
+    private averageRating: number;
 
 
-    constructor($id: number, $accommodationType: AccommodationType, $category: number, $additionalServices: AdditionalService[], $freeCancellation: boolean, $cancellationDays: number, $description: string, $images: string[], $numberOfPersons: number, $location: Location, $priceForRequestedPeriod: number, $distance: number) {
+    constructor($id: number, $accommodationType: AccommodationType, $category: number, $additionalServices: AdditionalService[], $freeCancellation: boolean, $cancellationDays: number, $description: string, $images: string[], $numberOfPersons: number, $location: Location, $priceForRequestedPeriod: number, $distance: number, $averageRating: number) {
         this.id = $id;
         this.accommodationType = $accommodationType;
         this.category = $category;
@@ -30,6 +31,7 @@ export class AccommodationSearchResult {
         this.location = $location;
         this.priceForRequestedPeriod = $priceForRequestedPeriod;
         this.distance = $distance;
+        this.averageRating = $averageRating;
     }
 
 
@@ -130,6 +132,14 @@ export class AccommodationSearchResult {
     }
 
     /**
+     * Getter $averageRating
+     * @return {number}
+     */
+    public get $averageRating(): number {
+        return this.averageRating;
+    }
+
+    /**
      * Setter $id
      * @param {number} value
      */
@@ -223,6 +233,14 @@ export class AccommodationSearchResult {
      */
     public set $distance(value: number) {
         this.distance = value;
+    }
+
+    /**
+     * Setter $averageRating
+     * @param {number} value
+     */
+    public set $averageRating(value: number) {
+        this.averageRating = value;
     }
 
 }

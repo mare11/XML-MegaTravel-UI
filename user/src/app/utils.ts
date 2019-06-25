@@ -36,3 +36,25 @@ export enum DirectionEnum {
     AGENT_TO_USER,
     USER_TO_AGENT
 }
+
+export function sortArray(array: any, sortBy: string, asc: boolean) {
+    if (!Array.isArray(array) || array.length === 0) {
+        return [];
+    }
+    array.sort((a: any, b: any) => {
+        let val1 = a[sortBy];
+        let val2 = b[sortBy];
+        if (typeof a[sortBy] === 'string') {
+            val1 = val1.toLowerCase();
+            val2 = val2.toLowerCase();
+        }
+        if (val1 < val2) {
+            return asc ? -1 : 1;
+        } else if (val1 > val2) {
+            return asc ? 1 : -1;
+        } else {
+            return 0;
+        }
+    });
+    return array;
+}

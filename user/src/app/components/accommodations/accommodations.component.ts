@@ -6,7 +6,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 import { ReservationService } from 'src/app/services/reservation/reservation.service';
 import { Reservation } from 'src/app/models/reservation/reservation';
 import { AppComponent } from 'src/app/app.component';
-import { SnackBar } from 'src/app/utils';
+import { SnackBar, sortArray } from 'src/app/utils';
 import { AccommodationService } from 'src/app/services/accommodation/accommodation.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AccommodationSearchObject } from 'src/app/models/accommodation-search';
@@ -41,6 +41,13 @@ export class AccommodationsComponent implements OnInit, AfterViewInit {
   private today: Date;
 
   private searchInProgress = false;
+
+  private sortOptions = [{ value: 'Distance', icon: 'location_on', sortBy: 'distance', asc: true },
+                         { value: 'Price', icon: 'euro_symbol', sortBy: 'priceForRequestedPeriod', asc: true },
+                         { value: 'Category', icon: 'category', sortBy: 'category', asc: false },
+                         { value: 'Rating', icon: 'star', sortBy: 'averageRating', asc: false }];
+  private selected = this.sortOptions[0].value;
+  private selectedOption = this.sortOptions[0];
 
   constructor(private authenticationService: AuthenticationService,
               private reservationService: ReservationService,
@@ -239,5 +246,15 @@ export class AccommodationsComponent implements OnInit, AfterViewInit {
         }
       }
     );
+  }
+
+  sort(value: any) {
+    for (const i in this.sortOptions) {
+      if (this.sortOptions[i].value === value) {
+        this.selectedOption = this.sortOptions[i];
+        break;
+      }
+    }
+    this.accommodations = sortArray(this.accommodations, this.selectedOption.sortBy, this.selectedOption.asc);
   }
 }

@@ -1,5 +1,5 @@
-<div *ngIf="accommodations">
-  <div class="jumbotron jumbotron-fluid p-5 bg-info text-white">
+<div class="container-fluid" *ngIf="accommodations">
+  <div class="jumbotron jumbotron-fluid p-4 bg-info text-white">
     <div class="container">
       <h1 class="display-4" style="text-shadow: 1px 1px #000000;">Showing accommodation in or nearby:</h1>
       <h1 class="display-4" style="text-shadow: 1px 1px #000000;">{{location.city}}</h1>
@@ -9,9 +9,21 @@
       </p>
     </div>
   </div>
+  <div class="row d-flex justify-content-end mr-2">
+    <mat-form-field>
+      <mat-select placeholder="Sort by" (selectionChange)="sort($event.value)" [(ngModel)]="selected">
+        <mat-select-trigger>
+          {{selectedOption.value}} <mat-icon color="primary">{{selectedOption.icon}}</mat-icon>
+        </mat-select-trigger>
+        <mat-option *ngFor="let option of sortOptions" [value]="option.value">{{option.value}} <mat-icon color="primary">
+            {{option.icon}}</mat-icon>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <div class="row">
-    <div class="col-4">
-      <div class="container d-flex justify-content-center">
+    <div class="col-md-4">
+      <div class="d-flex justify-content-center">
         <div [formGroup]="searchForm" class="card" style="border: none">
           <div class="card w-75 mat-elevation-z16 ml-4 mb-3" style="background-color: #FCF5C7">
             <div class="align-self-center my-2">
@@ -74,32 +86,37 @@
         </div>
       </div>
     </div>
-    <div class="col">
-      <div class="container d-flex justify-content-center" *ngFor="let accommodation of accommodations">
-        <div class="card text-white w-75 mat-elevation-z16 mb-4" style="background-color: #757780">
+    <div class="col-md-7">
+      <div class="d-flex justify-content-center" *ngFor="let accommodation of accommodations">
+        <div class="card text-white w-100 mat-elevation-z16 mb-4" style="background-color: #757780">
           <div class="row">
-            <div class="col-md-6 container d-flex justify-content-center">
-              <div class="row justify-content-center align-self-center">
-                <img alt="Place for image">
+            <div class="col-md-6 d-flex justify-content-center">
+              <div class="row ml-2 my-3">
+                <img src="assets/images/accommodation.jpg" width="100%" height="100%" alt="Place for image">
               </div>
             </div>
             <div class="col-md-6">
               <div class="row justify-content-center align-self-center">
                 <div class="card-body">
-                  <div class="row ml-3 mb-2">
+                  <div class="row justify-content-around ml-3 mb-2">
                     <div class="d-flex align-items-center">
                       <h5 class="card-text"><span
                           class="badge badge-primary">{{accommodation.accommodationType.typeName}}</span></h5>
                     </div>
-                    <div class="col-8">
-                      <div class="star-ratings-css" *ngIf="accommodation.category > 0">
-                        <span [ngStyle]="{'width': ((accommodation.category * 100) / 5) + '%'}"
-                          class="text-warning align-middle">
-                          ★★★★★
+                    <div class="star-ratings-css" *ngIf="accommodation.category > 0">
+                      <span [ngStyle]="{'width': ((accommodation.category * 100) / 5) + '%'}"
+                        class="text-warning align-middle">
+                        ★★★★★
+                      </span>
+                    </div>
+                    <h5 class="card-text ml-2 align-middle" *ngIf="accommodation.category === 0">
+                      <span class="badge badge-warning">uncategorized</span></h5>
+                    <div class="d-flex align-items-center">
+                      <h5 class="card-text">
+                        <span class="badge badge-primary">
+                          {{accommodation.averageRating | number : '1.0-2'}} / 5
                         </span>
-                      </div>
-                      <h5 class="card-text ml-2 align-middle" *ngIf="accommodation.category === 0"><span
-                          class="badge badge-warning">uncategorized</span></h5>
+                      </h5>
                     </div>
                   </div>
                   <p class="card-text"><b>Location: </b>{{accommodation.location.country}},
@@ -111,7 +128,7 @@
                   </p>
                   <p class="card-text"><b>Description:
                     </b>{{(!accommodation.description) ? '✗' : accommodation.description}}</p>
-                  <p class="card-text"><b>Price for requested period: </b>{{accommodation.priceForRequestedPeriod}}</p>
+                  <p class="card-text"><b>Price for requested period: </b>{{accommodation.priceForRequestedPeriod}} <i class="fa fa-eur"></i></p>
                   <div class="row ml-3 mb-2">
                     <div *ngFor="let item of array(accommodation.numberOfPersons).fill(1)">
                       <i class="fa fa-user mr-1" aria-hidden="true"></i>
@@ -134,7 +151,7 @@
         </div>
       </div>
       <div class="mt-5 d-flex justify-content-start text-center" *ngIf="accommodations.length == 0">
-        <h1 class="display-4">There are no available accommodations with these parameters, try with different parameters</h1>
+        <h1 class="display-4">There are no available accommodations with these parameters, try with different ones</h1>
       </div>
     </div>
   </div>
