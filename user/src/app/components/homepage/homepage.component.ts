@@ -19,10 +19,11 @@ export class HomepageComponent implements OnInit, AfterViewInit {
   private searchForm: FormGroup;
   private location: any = {};
   private today: Date;
+  searchInProgress = false;
 
   constructor(private formBuilder: FormBuilder,
-    private searchService: SearchService, private snackBar: SnackBar,
-    private router: Router, private accommodationService: AccommodationService) { }
+              private searchService: SearchService, private snackBar: SnackBar,
+              private router: Router, private accommodationService: AccommodationService) { }
 
   ngOnInit() {
     this.searchForm = this.formBuilder.group({
@@ -80,6 +81,7 @@ export class HomepageComponent implements OnInit, AfterViewInit {
   }
 
   search() {
+    this.searchInProgress = true;
     const searchFormValue = this.searchForm.value;
     const searchObject = new AccommodationSearchObject(this.location, searchFormValue.checkInDate, searchFormValue.checkOutDate, searchFormValue.numberOfPersons, null, null, null, null);
     this.searchService.search(searchObject).subscribe(
@@ -89,9 +91,11 @@ export class HomepageComponent implements OnInit, AfterViewInit {
         this.accommodationService.changeCheckInDate(searchFormValue.checkInDate);
         this.accommodationService.changeCheckOutDate(searchFormValue.checkOutDate);
         this.accommodationService.changeNumberOfPersons(searchFormValue.numberOfPersons);
+        this.searchInProgress = false;
         this.router.navigate(['/accommodations']);
       },
       () => {
+        this.searchInProgress = false;
         this.snackBar.showSnackBar('An error occurred! Try again...');
       }
     )

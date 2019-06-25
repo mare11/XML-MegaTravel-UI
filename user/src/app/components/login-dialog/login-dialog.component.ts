@@ -13,6 +13,7 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup;
   enterListener: any;
+  loggingInProgress = false;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -36,14 +37,17 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
   }
 
   loginUser() {
+    this.loggingInProgress = true;
     const loginUser = new LoginUser(this.loginForm.value.username, this.loginForm.value.password);
     this.authenticationService.login(loginUser).subscribe(
       (data) => {
         this.dialogRef.close(data);
+        this.loggingInProgress = false;
       },
       () => {
         this.loginForm.get('username').setErrors({ loginFailed: true });
         this.loginForm.get('password').setErrors({ loginFailed: true });
+        this.loggingInProgress = false;
       }
     );
   }

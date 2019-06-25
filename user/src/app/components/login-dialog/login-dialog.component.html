@@ -12,6 +12,7 @@
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-raised-button color="primary" type="submit" (click)="loginUser()">Login</button>
+  <button mat-raised-button color="primary" type="submit" (click)="loginUser()" [disabled]="loggingInProgress">
+    <span><img src="assets/images/Spinner-1s-32px.gif" *ngIf="loggingInProgress"></span> Login</button>
   <button mat-raised-button [mat-dialog-close]>Cancel</button>
 </mat-dialog-actions>

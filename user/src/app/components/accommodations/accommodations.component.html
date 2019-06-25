@@ -1,7 +1,7 @@
 <div *ngIf="accommodations">
   <div class="jumbotron jumbotron-fluid p-5 bg-info text-white">
     <div class="container">
-      <h1 class="display-4" style="text-shadow: 1px 1px #000000;">Showing accommodation in or near by:</h1>
+      <h1 class="display-4" style="text-shadow: 1px 1px #000000;">Showing accommodation in or nearby:</h1>
       <h1 class="display-4" style="text-shadow: 1px 1px #000000;">{{location.city}}</h1>
       <p class="lead mt-4">
         We have found {{accommodations.length}} accommodations for you in following period: {{checkInDate | date}}
@@ -13,8 +13,8 @@
     <div class="col-4">
       <div class="container d-flex justify-content-center">
         <div [formGroup]="searchForm" class="card" style="border: none">
-          <div class="card w-75 mat-elevation-z16 ml-4 mb-3" style="background-color:	#ffff4d ">
-            <div class="align-self-center">
+          <div class="card w-75 mat-elevation-z16 ml-4 mb-3" style="background-color: #FCF5C7">
+            <div class="align-self-center my-2">
               <h3>Basic parameters</h3>
             </div>
             <div class="justify-content-center align-self-center">
@@ -39,7 +39,7 @@
             </div>
           </div>
           <div class="card w-75 mat-elevation-z16 ml-4" style="background-color: white ">
-            <div class="align-self-center">
+            <div class="align-self-center my-2">
               <h3>Additional parameters</h3>
             </div>
             <div class="justify-content-center align-self-center">
@@ -59,13 +59,15 @@
               </div>
               <h5>Distance from location</h5>
               <mat-radio-group color="primary">
+                <mat-radio-button (change)="distanceChange(null)">All</mat-radio-button>
                 <div *ngFor="let distance of distancesFromLocation">
                   <mat-radio-button (change)="distanceChange(distance)" [value]="distance">Under {{distance}} km
                   </mat-radio-button>
                 </div>
               </mat-radio-group>
-              <button class="w-100 mb-3" color="primary" [disabled]=searchForm.invalid mat-raised-button (click)="search()">
-                <mat-icon>search</mat-icon>Search
+              <button class="w-100 my-3" color="primary" [disabled]="searchInProgress || searchForm.invalid" mat-raised-button (click)="search()">
+                <mat-icon *ngIf="!searchInProgress">search</mat-icon>
+                <span><img src="assets/images/Spinner-1s-32px.gif" *ngIf="searchInProgress"></span> Search
               </button>
             </div>
           </div>
@@ -131,8 +133,8 @@
           </div>
         </div>
       </div>
-      <div *ngIf="accommodations.length == 0">
-        <h2 class="mt-3">There are no available accommodations with these parameters, try with different parameters</h2>
+      <div class="mt-5 d-flex justify-content-start text-center" *ngIf="accommodations.length == 0">
+        <h1 class="display-4">There are no available accommodations with these parameters, try with different parameters</h1>
       </div>
     </div>
   </div>

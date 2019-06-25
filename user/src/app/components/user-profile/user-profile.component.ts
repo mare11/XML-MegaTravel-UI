@@ -5,6 +5,7 @@ import { Reservation } from 'src/app/models/reservation/reservation';
 import { ReservationState } from 'src/app/utils';
 import { UserReservationsComponent } from '../user-reservations/user-reservations.component';
 import { UserMessagesComponent } from '../user-messages/user-messages.component';
+import { ReservationRating } from 'src/app/models/reservation-rating/reservation-rating';
 
 @Component({
   selector: 'app-user-profile',
@@ -25,7 +26,7 @@ export class UserProfileComponent implements OnInit {
     const userId = this.authenticationService.getId();
     if (userId) {
       this.username = this.authenticationService.getUsername();
-      this.reservationService.getUserReservations(userId).subscribe(
+      this.reservationService.getUserReservations(userId, this.username).subscribe(
         (reservations: Array<Reservation>) => {
           this.reservations = reservations;
           this.reservations.forEach((reservation, index) => {
@@ -52,6 +53,15 @@ export class UserProfileComponent implements OnInit {
             } else {
               reservation.canCancel = false;
             }
+
+            // Check if reservation has rating
+            if (!reservation.reservationRating) {
+              reservation.reservationRating = new ReservationRating(0, '', null, null);
+              reservation.reservationRating.exists = false;
+            } else {
+              reservation.reservationRating.exists = true;
+            }
+
 
             this.reservations[index] = reservation;
           });

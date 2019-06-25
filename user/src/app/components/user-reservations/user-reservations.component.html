@@ -34,8 +34,87 @@
 </div>
 <div class="col-sm-4 list-group">
   <div class="list-group-item list-group-item-danger flex-column align-items-stretch my-2"
-      *ngFor="let reservation of reservations | reservationsFilter : 0;">
-      <app-user-single-reservation [reservation]="reservation"></app-user-single-reservation>
+    *ngFor="let reservation of reservations | reservationsFilter : 0;">
+    <app-user-single-reservation [reservation]="reservation"></app-user-single-reservation>
+    <mat-divider class="my-3"></mat-divider>
+    <div *ngIf="!reservation.reservationRating.exists">
+      <div class="row d-flex justify-content-start m-1">
+        <button class="btn btn-primary mr-2" type="button" (click)="reservation.reservationRating.isCollapsed = !reservation.reservationRating.isCollapsed">
+          <i class="fa fa-comment"></i> &nbsp; Comment & Rate &nbsp; <i class="fa fa-star"></i>
+        </button>
+      </div>
+      <div class="mt-2" *ngIf="reservation.reservationRating.isCollapsed">
+        <div class="card bg-light text-center">
+          <div class="card-body">
+            <div class="row d-flex justify-content-start">
+              <div class="col-md-3 text-center align-self-center">
+                <strong class="card-text align-middle">Rate us:</strong>
+              </div>
+              <div class="col-md-5">
+                <span (mouseover)="reservation.reservationRating.hovering = true;"
+                  (mouseout)="reservation.reservationRating.ratingToShow = reservation.reservationRating.rating; reservation.reservationRating.hovering = false;"
+                  [ngStyle]="{'cursor': reservation.reservationRating.hovering ? 'pointer' : 'initial'}" style="font-size: 25px;">
+                  <span *ngFor="let rate of [1, 2, 3, 4, 5]" (mouseover)="reservation.reservationRating.ratingToShow = rate"
+                    [ngStyle]="{'color': reservation.reservationRating.ratingToShow >= rate ? (reservation.reservationRating.hovering ? 'blue' : '#e7711b') : '#a2a2a2' }"
+                    (click)="reservation.reservationRating.rating = rate">
+                    ★
+                  </span>
+                </span>
+              </div>
+              <div class="col-md-2 text-center align-self-center">
+                <span class="badge badge-pill badge-info">{{reservation.reservationRating.rating}}/5</span>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-center m-1">
+              <textarea class="w-100" type="text" rows="5" maxlength="200" placeholder="Give as a comment..."
+                [(ngModel)]="reservation.reservationRating.comment"></textarea>
+            </div>
+            <div class="row d-flex justify-content-end m-1">
+              <mat-hint>{{reservation.reservationRating.comment.length}} / 200</mat-hint>
+            </div>
+            <div class="row d-flex justify-content-start m-1">
+              <button type="button" class="btn btn-primary"
+                (click)="pushReview(reservation); reservation.reservationRating.isCollapsed = !reservation.reservationRating.isCollapsed;"
+                [disabled]="reservation.reservationRating.comment.length === 0 || reservation.reservationRating.rating === 0">
+                Post &nbsp; <i class="fa fa-commenting"></i></button>
+              <button class="btn btn-danger ml-2" (click)="reservation.reservationRating.isCollapsed = !reservation.reservationRating.isCollapsed;">Cancel &nbsp;
+                <i class="fa fa-times"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card border border-dark mt-2" *ngIf="reservation.reservationRating.exists">
+      <div class="row card-header text-muted">
+        <div class="col-md-6 d-flex justify-content-start">
+          <small class="text-muted">
+            <i class="fa fa-clock-o"></i> {{ reservation.reservationRating.timestamp | date : 'medium' }}
+          </small>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end">
+          <h5 class="card-text align-middle" *ngIf="reservation.reservationRating.published">
+            <span class="badge badge-success">published</span>
+          </h5>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row d-flex justify-content-start">
+          <p class="card-text">{{reservation.reservationRating.comment}}</p>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="row d-flex justify-content-start">
+          <div class="col-md-4 text-center align-self-center">
+            <strong class="card-text">Your rating: </strong>
+          </div>
+          <div class="star-ratings-css">
+            <span [ngStyle]="{'width': ((reservation.reservationRating.rating * 100) / 5) + '%'}" style="color: #e7711b">
+              ★★★★★
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 </div>
