@@ -15,6 +15,7 @@ export class UserMessagesComponent implements OnChanges {
   private messages = new Array<Message>();
   private newMessage = '';
   private selectedReservationId;
+  private selectedReservationState;
 
   constructor(private reservationServce: ReservationService,
               private snackBar: SnackBar) { }
@@ -23,6 +24,7 @@ export class UserMessagesComponent implements OnChanges {
     if (this.reservations.length > 0) {
       this.messages = this.reservations[0].message;
       this.selectedReservationId = this.reservations[0].id;
+      this.selectedReservationState = this.reservations[0].state;
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AccommodationSearchResult } from 'src/app/models/accommodation-search-result/accommodation-search-result';
 import { ReservationDialogComponent } from '../reservation-dialog/reservation-dialog.component';
 import { MatDialog } from '@angular/material';
@@ -11,7 +11,6 @@ import { AccommodationService } from 'src/app/services/accommodation/accommodati
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AccommodationSearchObject } from 'src/app/models/accommodation-search';
 import { SearchService } from 'src/app/services/search/search.service';
-import { Location } from 'src/app/models/location/location';
 
 declare let require: any;
 
@@ -20,7 +19,7 @@ declare let require: any;
   templateUrl: './accommodations.component.html',
   styleUrls: ['./accommodations.component.css']
 })
-export class AccommodationsComponent implements OnInit {
+export class AccommodationsComponent implements OnInit, AfterViewInit {
 
   private accommodations: Array<AccommodationSearchResult>;
   private array: ArrayConstructor;
@@ -39,28 +38,28 @@ export class AccommodationsComponent implements OnInit {
   private selectedAccommodationTypes = [];
   private selectedDistance = null;
 
-  private newLocation: any = {};
   private today: Date;
 
+  private searchInProgress = false;
 
   constructor(private authenticationService: AuthenticationService,
-    private reservationService: ReservationService,
-    private accommodationService: AccommodationService,
-    private dialog: MatDialog,
-    private appComponent: AppComponent,
-    private snackBar: SnackBar,
-    private formBuilder: FormBuilder,
-    private searchService: SearchService) {
+              private reservationService: ReservationService,
+              private accommodationService: AccommodationService,
+              private dialog: MatDialog,
+              private appComponent: AppComponent,
+              private snackBar: SnackBar,
+              private formBuilder: FormBuilder,
+              private searchService: SearchService) {
 
     this.array = Array;
   }
 
   ngOnInit() {
-    this.accommodations = JSON.parse(localStorage.getItem("accommodations"));
-    this.location = JSON.parse(localStorage.getItem("location"));
-    this.checkInDate = JSON.parse(localStorage.getItem("checkInDate"));
-    this.checkOutDate = JSON.parse(localStorage.getItem("checkOutDate"));
-    this.numberOfPersons = JSON.parse(localStorage.getItem("numberOfPersons"));
+    this.accommodations = JSON.parse(localStorage.getItem('accommodations'));
+    this.location = JSON.parse(localStorage.getItem('location'));
+    this.checkInDate = JSON.parse(localStorage.getItem('checkInDate'));
+    this.checkOutDate = JSON.parse(localStorage.getItem('checkOutDate'));
+    this.numberOfPersons = JSON.parse(localStorage.getItem('numberOfPersons'));
     this.accommodationService.getAccommodationTypes().subscribe(
       (data: any) => {
         this.accommodationTypes = data;
@@ -93,12 +92,12 @@ export class AccommodationsComponent implements OnInit {
     });
 
     placesAutocomplete.on('change', e => {
-      this.newLocation.id = null;
-      this.newLocation.address = e.suggestion.value;
-      this.newLocation.country = e.suggestion.country;
-      this.newLocation.city = e.suggestion.city ? e.suggestion.city : e.suggestion.name;
-      this.newLocation.latitude = e.suggestion.latlng.lat;
-      this.newLocation.longitude = e.suggestion.latlng.lng;
+      this.location.id = null;
+      this.location.address = e.suggestion.value;
+      this.location.country = e.suggestion.country;
+      this.location.city = e.suggestion.city ? e.suggestion.city : e.suggestion.name;
+      this.location.latitude = e.suggestion.latlng.lat;
+      this.location.longitude = e.suggestion.latlng.lng;
     });
 
     placesAutocomplete.on('clear', e => {
@@ -118,7 +117,7 @@ export class AccommodationsComponent implements OnInit {
       if (controlStartDate.value >= controlEndDate.value) {
         controlEndDate.setErrors({ minDate: true });
       } else if (this.getDiferenceInDays(controlStartDate.value, controlEndDate.value) > 30) {
-        controlEndDate.setErrors({ daysDifference: true })
+        controlEndDate.setErrors({ daysDifference: true });
       } else {
         controlEndDate.setErrors(null);
       }
@@ -126,32 +125,32 @@ export class AccommodationsComponent implements OnInit {
   }
 
   additionalServiceChange(additionalServiceName, event) {
-    var status = event.checked;
+    const status = event.checked;
     if (status) {
       this.selectedAdditionalServices.push(additionalServiceName);
     } else {
-      var index = this.selectedAdditionalServices.indexOf(additionalServiceName);
+      const index = this.selectedAdditionalServices.indexOf(additionalServiceName);
       this.selectedAdditionalServices.splice(index, 1);
     }
   }
 
   accommodationTypeChange(accommodationType, event) {
-    var status = event.checked;
+    const status = event.checked;
     if (status) {
       this.selectedAccommodationTypes.push(accommodationType);
     } else {
-      var index = this.selectedAccommodationTypes.indexOf(accommodationType);
+      const index = this.selectedAccommodationTypes.indexOf(accommodationType);
       this.selectedAccommodationTypes.splice(index, 1);
     }
   }
 
   categoryChange(category, event) {
-    var status = event.checked;
-    var categoryResult = this.categories.indexOf(category);
+    const status = event.checked;
+    const categoryResult = this.categories.indexOf(category);
     if (status) {
       this.selectedCategories.push(categoryResult);
     } else {
-      var index = this.selectedCategories.indexOf(categoryResult);
+      const index = this.selectedCategories.indexOf(categoryResult);
       this.selectedCategories.splice(index, 1);
     }
   }
@@ -161,28 +160,30 @@ export class AccommodationsComponent implements OnInit {
   }
 
   search() {
+    this.searchInProgress = true;
     const searchFormValue = this.searchForm.value;
-    const searchObject = new AccommodationSearchObject(this.newLocation, searchFormValue.checkInDate, searchFormValue.checkOutDate, searchFormValue.numberOfPersons, this.selectedAccommodationTypes, this.selectedCategories, this.selectedAdditionalServices, this.selectedDistance);
-    if (this.newLocation === {}) {
-      this.newLocation = this.location;
-    }
+    const searchObject = new AccommodationSearchObject(this.location, searchFormValue.checkInDate,
+      searchFormValue.checkOutDate, searchFormValue.numberOfPersons, this.selectedAccommodationTypes,
+      this.selectedCategories, this.selectedAdditionalServices, this.selectedDistance);
+    console.dir(searchObject);
     this.searchService.search(searchObject).subscribe(
       (data: Array<AccommodationSearchResult>) => {
         this.accommodationService.changeAccommodations(data);
-        this.accommodationService.changeLocation(this.newLocation);
+        this.accommodationService.changeLocation(this.location);
         this.accommodationService.changeCheckInDate(searchFormValue.checkInDate);
         this.accommodationService.changeCheckOutDate(searchFormValue.checkOutDate);
         this.accommodationService.changeNumberOfPersons(searchFormValue.numberOfPersons);
         this.accommodations = data;
-        this.location = this.newLocation;
         this.checkInDate = searchFormValue.checkInDate;
         this.checkOutDate = searchFormValue.checkOutDate;
         this.numberOfPersons = searchFormValue.numberOfPersons;
+        this.searchInProgress = false;
       },
       () => {
         this.snackBar.showSnackBar('An error occurred! Try again...');
+        this.searchInProgress = false;
       }
-    )
+    );
   }
 
   openReservationDialog(accommodation: AccommodationSearchResult) {
@@ -205,7 +206,7 @@ export class AccommodationsComponent implements OnInit {
 
   createReservation(accommodation: AccommodationSearchResult) {
     const startDate = this.checkInDate;
-    const endDate = this.checkOutDate
+    const endDate = this.checkOutDate;
     const reservation = new Reservation();
     reservation.$accommodationId = accommodation.$id;
     reservation.$userId = this.authenticationService.getId();
