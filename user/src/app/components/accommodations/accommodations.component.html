@@ -15,7 +15,8 @@
         <mat-select-trigger>
           {{selectedOption.value}} <mat-icon color="primary">{{selectedOption.icon}}</mat-icon>
         </mat-select-trigger>
-        <mat-option *ngFor="let option of sortOptions" [value]="option.value">{{option.value}} <mat-icon color="primary">
+        <mat-option *ngFor="let option of sortOptions" [value]="option.value">{{option.value}} <mat-icon
+            color="primary">
             {{option.icon}}</mat-icon>
         </mat-option>
       </mat-select>
@@ -35,12 +36,14 @@
                 <input id="location-input" matInput type="text" formControlName="location" placeholder="Location">
               </mat-form-field>
               <mat-form-field appearance="outline" class="w-75 ml-4">
-                <input matInput [min]="today" [matDatepicker]="picker" formControlName="checkInDate" placeholder="Check in date">
+                <input matInput [min]="today" [matDatepicker]="picker" formControlName="checkInDate"
+                  placeholder="Check in date">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
               <mat-form-field appearance="outline" class="w-75 ml-4">
-                <input matInput [min]="today" [matDatepicker]="picker2" formControlName="checkOutDate" placeholder="Check out date">
+                <input matInput [min]="today" [matDatepicker]="picker2" formControlName="checkOutDate"
+                  placeholder="Check out date">
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2></mat-datepicker>
               </mat-form-field>
@@ -77,7 +80,8 @@
                   </mat-radio-button>
                 </div>
               </mat-radio-group>
-              <button class="w-100 my-3" color="primary" [disabled]="searchInProgress || searchForm.invalid" mat-raised-button (click)="search()">
+              <button class="w-100 my-3" color="primary" [disabled]="searchInProgress || searchForm.invalid"
+                mat-raised-button (click)="search()">
                 <mat-icon *ngIf="!searchInProgress">search</mat-icon>
                 <span><img src="assets/images/Spinner-1s-32px.gif" *ngIf="searchInProgress"></span> Search
               </button>
@@ -128,7 +132,8 @@
                   </p>
                   <p class="card-text"><b>Description:
                     </b>{{(!accommodation.description) ? '✗' : accommodation.description}}</p>
-                  <p class="card-text"><b>Price for requested period: </b>{{accommodation.priceForRequestedPeriod}} <i class="fa fa-eur"></i></p>
+                  <p class="card-text"><b>Price for requested period: </b>{{accommodation.priceForRequestedPeriod}} <i
+                      class="fa fa-eur"></i></p>
                   <div class="row ml-3 mb-2">
                     <div *ngFor="let item of array(accommodation.numberOfPersons).fill(1)">
                       <i class="fa fa-user mr-1" aria-hidden="true"></i>
@@ -140,8 +145,8 @@
                     <button (click)="openReservationDialog(accommodation)" class="btn btn-danger">
                       Reservation &nbsp; <i class="fa fa-calendar-plus-o"></i>
                     </button>
-                    <button class="btn btn-danger mx-2">
-                      Details &nbsp; <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    <button class="btn btn-danger mx-2" [routerLink]="['/accommodations', accommodation.id]">
+                      Details &nbsp; <i class=" fa fa-arrow-right" aria-hidden="true"></i>
                     </button>
                   </div>
                 </div>

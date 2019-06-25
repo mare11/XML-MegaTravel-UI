@@ -45,4 +45,12 @@ export class AccommodationService {
     };
     return this.http.delete('/api/accommodation-service/additionalService', options);
   }
+
+  getUnpublishedReviews() {
+    return this.http.get('/api/accommodation-service/accommodations/reviews/unpublished');
+  }
+
+  publishComment(id: number) {
+    return this.http.put('/api/reservation-service/reservations/' + id + '/comment', null);
+  }
 }

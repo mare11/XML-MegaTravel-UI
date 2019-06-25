@@ -1,0 +1,73 @@
+<div class="container-fluid" *ngIf="accommodation">
+  <div class="row">
+    <div class="col-4 m-5">
+      <h6 class="display-4 d-inline-block">{{accommodation.accommodationType.typeName}}</h6>
+      <div class="star-ratings-css p-4" *ngIf="accommodation.category > 0">
+        <span [ngStyle]="{'width': ((accommodation.category * 100) / 5) + '%'}" class="text-warning align-middle">
+          ★★★★★
+        </span>
+      </div>
+      <h5 class="card-text align-middle d-inline-block p-4" *ngIf="accommodation.category === 0"><span
+          class="badge badge-warning">uncategorized</span></h5>
+      <h5>for {{accommodation.numberOfPersons}} person(s)</h5>
+      <h5>Average rating: <b>{{average | number : '1.0-2'}} / 5</b></h5>
+      <p class="font-weight-normal">{{accommodation.location.address}}, {{accommodation.location.city}},
+        {{accommodation.location.country}}</p>
+      <p class="font-weight-normal">{{accommodation.description}}</p>
+      <div class="overflow-auto w-100 ml-n3" style="height: 55%; position: absolute;">
+        <ul class="list-group list-group-flush mt-2">
+          <li class="list-group-item" *ngFor="let review of reviews">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">
+                <div class="star-ratings-css">
+                  <span [ngStyle]="{'width': ((review.rating * 100) / 5) + '%'}" class="text-warning align-middle">
+                    ★★★★★
+                  </span>
+                </div>
+              </h5>
+              <small class="text-muted">{{review.timestamp | date:'medium'}}</small>
+            </div>
+            <p class="mb-1">{{review.comment}}</p>
+            <small class="text-muted">{{review.username}}</small>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-6 m-5">
+      <iframe [src]='mapUrl' class="w-100" height="540" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+      </iframe>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 d-inline-block">
+      <h4 class="d-inline-block">Additional services</h4>
+      <ul class="list-group list-group-flush border-right mt-1">
+        <li class="list-group-item" *ngFor="let service of accommodation.additionalService">
+          {{service.additionalServiceName}}
+        </li>
+      </ul>
+    </div>
+    <div class="col-4 d-inline-block">
+      <h4 class="d-inline-block">Period prices</h4>
+      <ul class="list-group list-group-flush border-right mt-1">
+        <li class="list-group-item d-flex justify-content-around" *ngFor="let period of accommodation.periodPrice">
+          <span>{{period.startDate}}</span>
+          <i class="fa fa-arrows-h"></i>
+          <span>{{period.endDate}}</span>
+          <i class="fa fa-long-arrow-right"></i>
+          <b>{{period.price}}€</b>
+        </li>
+      </ul>
+    </div>
+    <div class="col-4 d-inline-block">
+      <h4 class="d-inline-block">Unavailabilities</h4>
+      <ul class="list-group list-group-flush border-right mt-1">
+        <li class="list-group-item d-flex justify-content-around" *ngFor="let unv of accommodation.unavailability">
+          <span>{{unv.startDate}}</span>
+          <i class="fa fa-arrows-h"></i>
+          <span>{{unv.endDate}}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

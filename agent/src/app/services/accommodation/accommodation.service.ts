@@ -101,4 +101,12 @@ export class AccommodationService {
     // return this.http.get('/api/accommodation-service/additionalService');
     return this.additionalServices;
   }
+
+  getAccommodationRatings(id: number) {
+    return this.http.get('/api/accommodation-service/accommodations/' + id + '/reviews/all');
+  }
+
+  getAccommodationAverageRating(id: number) {
+    return this.http.get('/api/accommodation-service/accommodations/reviews/average/' + id);
+  }
 }

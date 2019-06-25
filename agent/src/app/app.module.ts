@@ -15,6 +15,7 @@ import { AccommodationDetailsComponent } from './components/accommodation-detail
 import { AccommodationDialogComponent } from './components/accommodation-dialog/accommodation-dialog.component';
 import { UpdateDialogComponent } from './components/update-dialog/update-dialog.component';
 import { ReservationsAndMessagesComponent } from './components/reservations-and-messages/reservations-and-messages.component';
+import { RatingsComponent } from './components/ratings/ratings.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ReservationsAndMessagesComponent } from './components/reservations-and-
     AccommodationDetailsComponent,
     AccommodationDialogComponent,
     UpdateDialogComponent,
-    ReservationsAndMessagesComponent
+    ReservationsAndMessagesComponent,
+    RatingsComponent
   ],
   entryComponents: [
     AccommodationDialogComponent,

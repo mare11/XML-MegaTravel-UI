@@ -172,7 +172,6 @@ export class AccommodationsComponent implements OnInit, AfterViewInit {
     const searchObject = new AccommodationSearchObject(this.location, searchFormValue.checkInDate,
       searchFormValue.checkOutDate, searchFormValue.numberOfPersons, this.selectedAccommodationTypes,
       this.selectedCategories, this.selectedAdditionalServices, this.selectedDistance);
-    console.dir(searchObject);
     this.searchService.search(searchObject).subscribe(
       (data: Array<AccommodationSearchResult>) => {
         this.accommodationService.changeAccommodations(data);

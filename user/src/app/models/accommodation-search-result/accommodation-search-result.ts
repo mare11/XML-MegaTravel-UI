@@ -1,6 +1,7 @@
 import { AccommodationType } from '../accommodation-type/accommodation-type';
 import { AdditionalService } from '../additional-service/additional-service';
 import { Location } from '../location/location';
+import { Unavailability } from '../Unavailability';
 
 export class AccommodationSearchResult {
     private id: number;
@@ -16,6 +17,7 @@ export class AccommodationSearchResult {
     private priceForRequestedPeriod: number;
     private distance: number;
     private averageRating: number;
+    private unavailability: Unavailability;
 
 
     constructor($id: number, $accommodationType: AccommodationType, $category: number, $additionalServices: AdditionalService[], $freeCancellation: boolean, $cancellationDays: number, $description: string, $images: string[], $numberOfPersons: number, $location: Location, $priceForRequestedPeriod: number, $distance: number, $averageRating: number) {

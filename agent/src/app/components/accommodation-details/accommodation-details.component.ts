@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { HomepageComponent } from '../homepage/homepage.component';
 import { UpdateAccommodation, SnackBar } from 'src/app/utils';
 import { MatDialog } from '@angular/material';
@@ -7,24 +7,45 @@ import { Accommodation } from 'src/app/models/Accommodation';
 import { AccommodationService } from 'src/app/services/accommodation/accommodation.service';
 import { AdditionalService } from 'src/app/models/AdditionalService';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { ReservationCloud } from 'src/app/models/ReservationCloud';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { AverageRating } from 'src/app/models/AverageRating';
 
 @Component({
   selector: 'app-accommodation-details',
   templateUrl: './accommodation-details.component.html',
   styleUrls: ['./accommodation-details.component.css']
 })
-export class AccommodationDetailsComponent implements OnInit {
+export class AccommodationDetailsComponent implements OnInit, OnChanges {
 
   constructor(
     private homepageComponent: HomepageComponent, private dialog: MatDialog, private snackBar: SnackBar,
-    private accommodationService: AccommodationService, private authenticationService: AuthenticationService) { }
+    private accommodationService: AccommodationService, private authenticationService: AuthenticationService,
+    private sanitizer: DomSanitizer) { }
 
   @Input() accommodation: Accommodation;
   @Input() additionalServices: AdditionalService[];
   private username: string;
+  mapUrl: SafeResourceUrl;
+  average: number;
+
+  reviews: ReservationCloud[];
 
   ngOnInit() {
     this.username = this.authenticationService.getUsername();
+    this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      'https://maps.google.com/maps?q=' +
+      this.accommodation.location.latitude + ', ' +
+      this.accommodation.location.longitude +
+      '&t=&z=11&ie=UTF8&iwloc=&output=embed');
+  }
+
+  ngOnChanges() {
+    this.accommodationService.getAccommodationAverageRating(this.accommodation.id).subscribe(
+      (data: AverageRating) => {
+        this.average = data.averageRating;
+      }
+    );
   }
 
   goBack() {
@@ -47,14 +68,12 @@ export class AccommodationDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (data) => {
         if (data) {
-          let update = data;
+          const update = data;
           if (updateEnum.toString() === 'PERIOD') {
-            update = this.formatDates(update);
             this.accommodation.periodPrice.push(update);
           }
 
           if (updateEnum.toString() === 'UNAVAILABILITY') {
-            update = this.formatDates(update);
             delete update.price;
             this.accommodation.unavailability.push(update);
           }
@@ -79,16 +98,4 @@ export class AccommodationDetailsComponent implements OnInit {
       }
     );
   }
-
-  formatDates(update) {
-    const startDate = update.startDate;
-    const endDate = update.endDate;
-    update.startDate = new Date(Date.UTC(startDate.getUTCFullYear(), startDate.getUTCMonth(), startDate.getUTCDate(),
-      startDate.getUTCHours(), startDate.getUTCMinutes(), startDate.getUTCSeconds())).toISOString().split('T')[0];
-    update.endDate = new Date(Date.UTC(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate(),
-      endDate.getUTCHours(), endDate.getUTCMinutes(), endDate.getUTCSeconds())).toISOString().split('T')[0];
-
-    return update;
-  }
-
 }

@@ -1,0 +1,30 @@
+<div style="padding-top: 10px">
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Rating</th>
+        <th scope="col">Comment</th>
+        <th scope="col">Username</th>
+        <th scope="col">Timestamp</th>
+        <th scope="col">Publish</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr scope="row" *ngFor="let review of reviews">
+        <td>
+          <div class="star-ratings-css">
+            <span [ngStyle]="{'width': ((review.rating * 100) / 5) + '%'}" class="text-warning align-middle">
+              ★★★★★
+            </span>
+          </div>
+        </td>
+        <td>{{review.comment}}</td>
+        <td>{{review.username}}</td>
+        <td>{{review.timestamp | date:'EEEE, MMMM d, y, h:mm:ss a'}}</td>
+        <td>
+          <button type="button" class="btn btn-success" (click)="publishComment(review)">Publish</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

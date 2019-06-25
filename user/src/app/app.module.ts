@@ -12,12 +12,14 @@ import { SnackBar } from './utils';
 import { ReservationsFilterPipe } from './pipes/reservations-filter/reservations-filter.pipe';
 import { UserMessagesComponent } from './components/user-messages/user-messages.component';
 import { UserReservationsComponent } from './components/user-reservations/user-reservations.component';
+import { AccommodationDetailsComponent } from './components/accommodation-details/accommodation-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RoutingComponents,
-    ReservationsFilterPipe
+    ReservationsFilterPipe,
+    AccommodationDetailsComponent
   ],
   entryComponents: [
     RoutingComponents

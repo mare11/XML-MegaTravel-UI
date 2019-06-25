@@ -1,0 +1,18 @@
+<div class="card m-3" *ngFor="let review of reviews">
+  <div class="card-header">
+    {{review.username}}
+    <div class="star-ratings-css ml-3">
+      <span [ngStyle]="{'width': ((review.rating * 100) / 5) + '%'}" class="text-warning align-middle">
+        ★★★★★
+      </span>
+    </div>
+    <h5 class="card-text align-middle d-inline-block ml-4 float-right" *ngIf="review.published"><span
+        class="badge badge-success">published</span></h5>
+  </div>
+  <div class="card-body">
+    <p class="card-text">{{review.comment}}</p>
+  </div>
+  <div class="card-footer text-muted">
+    {{review.timestamp | date:'EEEE, MMMM d, y, h:mm:ss a'}}
+  </div>
+</div>

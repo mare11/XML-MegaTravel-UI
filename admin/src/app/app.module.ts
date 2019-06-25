@@ -15,6 +15,7 @@ import { AccommodationComponent } from './components/accommodation/accommodation
 import { SnackBar } from './utils';
 import { AddAgentDialogComponent } from './components/add-agent-dialog/add-agent-dialog.component';
 import { AddAdminDialogComponent } from './components/add-admin-dialog/add-admin-dialog.component';
+import { RatingsComponent } from './components/ratings/ratings.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { AddAdminDialogComponent } from './components/add-admin-dialog/add-admin
     AgentsComponent,
     AccommodationComponent,
     AddAgentDialogComponent,
-    AddAdminDialogComponent
+    AddAdminDialogComponent,
+    RatingsComponent
   ],
   entryComponents: [
     AddAgentDialogComponent,

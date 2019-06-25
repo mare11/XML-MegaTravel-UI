@@ -18,9 +18,10 @@ export class ReservationsAndMessagesComponent implements OnInit {
   private messages = new Array<Message>();
   private newMessage = '';
   private selectedReservationId;
+  private selectedReservationState;
 
   constructor(private reservationServce: ReservationService,
-              private snackBar: SnackBar) { }
+    private snackBar: SnackBar) { }
 
   ngOnInit() {
     // this.reservationServce.getAccommodationReservations(this.accommodationId).subscribe(
@@ -47,6 +48,7 @@ export class ReservationsAndMessagesComponent implements OnInit {
 
     this.messages = this.reservations[0].message;
     this.selectedReservationId = this.reservations[0].id;
+    this.selectedReservationState = this.reservations[0].state;
   }
 
   sendMessage(reservationId: number) {
