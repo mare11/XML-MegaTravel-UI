@@ -214,11 +214,11 @@ export class AccommodationsComponent implements OnInit, AfterViewInit {
     const startDate = this.checkInDate;
     const endDate = this.checkOutDate;
     const reservation = new Reservation();
-    reservation.$accommodationId = accommodation.$id;
+    reservation.$accommodationId = accommodation.id;
     reservation.$userId = this.authenticationService.getId();
     reservation.$startDate = startDate;
     reservation.$endDate = endDate;
-    reservation.$price = accommodation.$priceForRequestedPeriod;
+    reservation.$price = accommodation.priceForRequestedPeriod;
 
     const dialogRef = this.dialog.open(ReservationDialogComponent, {
       data: {

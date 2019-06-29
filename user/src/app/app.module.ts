@@ -7,12 +7,13 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SnackBar } from './utils';
 import { ReservationsFilterPipe } from './pipes/reservations-filter/reservations-filter.pipe';
 import { UserMessagesComponent } from './components/user-messages/user-messages.component';
 import { UserReservationsComponent } from './components/user-reservations/user-reservations.component';
 import { AccommodationDetailsComponent } from './components/accommodation-details/accommodation-details.component';
+import { TokenInterceptor } from './http-interceptor';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { AccommodationDetailsComponent } from './components/accommodation-detail
     FormsModule,
     SnackBar
   ],
-  providers: [UserReservationsComponent, UserMessagesComponent],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }, UserReservationsComponent, UserMessagesComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

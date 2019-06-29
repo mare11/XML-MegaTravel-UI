@@ -7,7 +7,7 @@ import { LoginComponent } from './components/login/login.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material'
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UsersComponent } from './components/users/users.component';
 import { AgentsComponent } from './components/agents/agents.component';
@@ -16,6 +16,7 @@ import { SnackBar } from './utils';
 import { AddAgentDialogComponent } from './components/add-agent-dialog/add-agent-dialog.component';
 import { AddAdminDialogComponent } from './components/add-admin-dialog/add-admin-dialog.component';
 import { RatingsComponent } from './components/ratings/ratings.component';
+import { TokenInterceptor } from './http-interceptor';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import { RatingsComponent } from './components/ratings/ratings.component';
     ReactiveFormsModule,
     SnackBar
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
