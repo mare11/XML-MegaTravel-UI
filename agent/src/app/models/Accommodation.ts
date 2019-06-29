@@ -15,9 +15,9 @@ export class Accommodation {
     images: string[];
     numberOfPersons: number;
     defaultPrice: number;
-    periodPrice: PeriodPrice[];
+    periodPrices: PeriodPrice[];
     location: Location;
-    unavailability: Unavailability[];
+    unavailabilities: Unavailability[];
 
     constructor(
         id: number,
@@ -35,7 +35,7 @@ export class Accommodation {
         this.numberOfPersons = numberOfPersons;
         this.defaultPrice = defaultPrice;
         this.location = location;
-        this.periodPrice = [];
-        this.unavailability = [];
+        this.periodPrices = [];
+        this.unavailabilities = [];
     }
 }

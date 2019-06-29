@@ -46,11 +46,11 @@ export class AccommodationsComponent implements OnInit {
       (data) => {
         if (data) {
           this.accommodations.push(data);
-          this.snackBar.showSnackBar('Accommodation successfuly created');
+          this.snackBar.showSnackBar('Accommodation successfully created!');
         }
       },
       () => {
-        this.snackBar.showSnackBar('An error occurred. Try again');
+        this.snackBar.showSnackBar('An error occurred. Try again.');
       }
     );
   }

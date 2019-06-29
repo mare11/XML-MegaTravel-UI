@@ -4,6 +4,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 import { Router } from '@angular/router';
 import { LoginAgent } from 'src/app/models/LoginAdmin';
 import { SnackBar } from 'src/app/utils';
+import { SynchronizationService } from 'src/app/services/synchronization/synchronization.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
-    private router: Router, private snackBar: SnackBar) {
+    private router: Router, private snackBar: SnackBar,
+    private syncService: SynchronizationService) {
 
     this.enterListener = (event) => {
       if (event.keyCode === 13) {
@@ -45,10 +47,18 @@ export class LoginComponent implements OnInit, OnDestroy {
     const loginAgent = new LoginAgent(this.loginForm.value.username, this.loginForm.value.password);
     this.authenticationService.login(loginAgent).subscribe(
       (data: any) => {
+        this.snackBar.showSnackBar('Logged in successfully! Synchronizing data, please wait...');
         this.authenticationService.setUserState(data);
-        this.router.navigate(['/homepage']);
-        this.snackBar.showSnackBar('Logged in successfully!');
-        this.loggingInProgress = false;
+        this.syncService.synchronize().subscribe(
+          () => {
+            // this.loggingInProgress = false;
+            this.router.navigate(['/homepage']);
+          },
+          () => {
+            this.snackBar.showSnackBar('An error occurred. Try again.');
+            this.loggingInProgress = false;
+          }
+        );
       },
       () => {
         this.loginForm.get('username').setErrors({ loginFailed: true });

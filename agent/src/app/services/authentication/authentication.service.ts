@@ -40,6 +40,13 @@ export class AuthenticationService {
     return JSON.parse(localStorage.getItem(this.userKey)).username;
   }
 
+  getId(): number {
+    if (!JSON.parse(localStorage.getItem(this.userKey))) {
+      return null;
+    }
+    return JSON.parse(localStorage.getItem(this.userKey)).id;
+  }
+
   login(authRequest: any) {
     return this.http.post('/api/authentication-service/authentication', authRequest);
   }

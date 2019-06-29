@@ -44,7 +44,7 @@
                         period</button>
                     <ul class="list-group list-group-flush border-right mt-1">
                         <li class="list-group-item d-flex justify-content-around"
-                            *ngFor="let period of accommodation.periodPrice">
+                            *ngFor="let period of accommodation.periodPrices">
                             <span>{{period.startDate | date:'mediumDate'}}</span>
                             <i class="fa fa-arrows-h"></i>
                             <span>{{period.endDate | date:'mediumDate'}}</span>
@@ -60,7 +60,7 @@
                         unavailability</button>
                     <ul class="list-group list-group-flush border-right mt-1">
                         <li class="list-group-item d-flex justify-content-around"
-                            *ngFor="let unv of accommodation.unavailability">
+                            *ngFor="let unv of accommodation.unavailabilities">
                             <span>{{unv.startDate | date:'mediumDate'}}</span>
                             <i class="fa fa-arrows-h"></i>
                             <span>{{unv.endDate | date:'mediumDate'}}</span>

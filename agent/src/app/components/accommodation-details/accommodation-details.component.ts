@@ -10,6 +10,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 import { ReservationCloud } from 'src/app/models/ReservationCloud';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AverageRating } from 'src/app/models/AverageRating';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-accommodation-details',
@@ -33,11 +34,6 @@ export class AccommodationDetailsComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.username = this.authenticationService.getUsername();
-    this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      'https://maps.google.com/maps?q=' +
-      this.accommodation.location.latitude + ', ' +
-      this.accommodation.location.longitude +
-      '&t=&z=11&ie=UTF8&iwloc=&output=embed');
   }
 
   ngOnChanges() {
@@ -46,6 +42,11 @@ export class AccommodationDetailsComponent implements OnInit, OnChanges {
         this.average = data.averageRating;
       }
     );
+    this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      'https://maps.google.com/maps?q=' +
+      this.accommodation.location.latitude + ', ' +
+      this.accommodation.location.longitude +
+      '&t=&z=11&ie=UTF8&iwloc=&output=embed');
   }
 
   goBack() {
@@ -69,32 +70,35 @@ export class AccommodationDetailsComponent implements OnInit, OnChanges {
       (data) => {
         if (data) {
           const update = data;
+          const newAcc = JSON.parse(JSON.stringify(this.accommodation));
+
           if (updateEnum.toString() === 'PERIOD') {
-            this.accommodation.periodPrice.push(update);
+            newAcc.periodPrices.push(update);
           }
 
           if (updateEnum.toString() === 'UNAVAILABILITY') {
             delete update.price;
-            this.accommodation.unavailability.push(update);
+            newAcc.unavailabilities.push(update);
           }
 
           if (updateEnum.toString() === 'SERVICE') {
             const services = update.additionalServices;
-            this.accommodation.additionalServices = this.additionalServices.filter((service, index) => services[index]);
+            newAcc.additionalServices = this.additionalServices.filter((service, index) => services[index]);
           }
 
-          // this.accommodationService.updateAccommodation(this.accommodation).subscribe(
-          //   () => {
-          //     this.snackBar.showSnackBar('Accommodation successfully updated');
-          //   },
-          //   () => {
-          //     this.snackBar.showSnackBar('An error occurred. Try again');
-          //   }
-          // );
+          this.accommodationService.updateAccommodation(newAcc).subscribe(
+            (updated: Accommodation) => {
+              this.snackBar.showSnackBar('Accommodation successfully updated.');
+              this.accommodation = updated;
+            },
+            () => {
+              this.snackBar.showSnackBar('An error occurred. Try again.');
+            }
+          );
         }
       },
       () => {
-        this.snackBar.showSnackBar('An error occurred. Try again');
+        this.snackBar.showSnackBar('An error occurred. Try again.');
       }
     );
   }

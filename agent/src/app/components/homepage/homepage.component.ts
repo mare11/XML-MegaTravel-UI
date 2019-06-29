@@ -6,6 +6,7 @@ import { Accommodation } from 'src/app/models/Accommodation';
 import { AccommodationType } from 'src/app/models/AccommodationType';
 import { AdditionalService } from 'src/app/models/AdditionalService';
 import { AccommodationService } from 'src/app/services/accommodation/accommodation.service';
+import { SynchronizationService } from 'src/app/services/synchronization/synchronization.service';
 
 @Component({
   selector: 'app-homepage',
@@ -24,7 +25,8 @@ export class HomepageComponent implements OnInit {
 
   constructor(
     private authenticationService: AuthenticationService, private router: Router,
-    private snackBar: SnackBar, private accommodationService: AccommodationService) { }
+    private snackBar: SnackBar, private accommodationService: AccommodationService,
+    private syncService: SynchronizationService) { }
 
   ngOnInit() {
     this.username = this.authenticationService.getUsername();
@@ -32,26 +34,21 @@ export class HomepageComponent implements OnInit {
       this.router.navigate(['/']);
     }
 
-    this.accommodations = this.accommodationService.getAccommodations();
-    // this.accommodationService.getAccommodations().subscribe(
-    //   (data: any) => {
-    //     this.accommodations = data;
-    //     console.log(data);
-    //   }
-    // );
-    this.accommodationTypes = this.accommodationService.getAccommodationTypes();
-    // this.accommodationService.getAccommodationTypes().subscribe(
-    //   (types: AccommodationType[]) => {
-    //     this.accommodationTypes = types;
-
-    //   }
-    // );
-    this.additionalServices = this.accommodationService.getAdditionalServices();
-    // this.accommodationService.getAdditionalServices().subscribe(
-    //   (services: AdditionalService[]) => {
-    //     this.additionalServices = services;
-    //   }
-    // );
+    this.accommodationService.getAccommodations().subscribe(
+      (accommodations: Accommodation[]) => {
+        this.accommodations = accommodations;
+      }
+    );
+    this.accommodationService.getAccommodationTypes().subscribe(
+      (types: AccommodationType[]) => {
+        this.accommodationTypes = types;
+      }
+    );
+    this.accommodationService.getAdditionalServices().subscribe(
+      (services: AdditionalService[]) => {
+        this.additionalServices = services;
+      }
+    );
   }
 
   nextStep(accommodation) {
@@ -64,10 +61,16 @@ export class HomepageComponent implements OnInit {
   }
 
   logout() {
-    setTimeout(() => {
-      this.authenticationService.removeUserState();
-      this.router.navigate(['/']);
-      this.snackBar.showSnackBar('Logged out successfully!');
-    }, 500);
+    this.snackBar.showSnackBar('Desynchronizing data, please wait...');
+    this.syncService.desynchronize().subscribe(
+      () => {
+        this.authenticationService.removeUserState();
+        this.router.navigate(['/']);
+        this.snackBar.showSnackBar('Logged out successfully!');
+      },
+      () => {
+        this.snackBar.showSnackBar('An error occurred. Try again.');
+      }
+    );
   }
 }

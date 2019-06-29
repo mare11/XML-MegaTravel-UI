@@ -5,6 +5,7 @@ import { AccommodationService } from 'src/app/services/accommodation/accommodati
 import { AccommodationType } from 'src/app/models/AccommodationType';
 import { AdditionalService } from 'src/app/models/AdditionalService';
 import { Location } from 'src/app/models/Location';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
 declare var require: any;
 
@@ -23,7 +24,8 @@ export class AccommodationDialogComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<AccommodationDialogComponent>, private formBuilder: FormBuilder,
-    private accommodationService: AccommodationService, @Inject(MAT_DIALOG_DATA) private data: any) {
+    private accommodationService: AccommodationService, @Inject(MAT_DIALOG_DATA) private data: any,
+    private authService: AuthenticationService) {
 
     this.accommodationTypes = this.data.types;
     this.additionalServices = this.data.services;
@@ -80,7 +82,10 @@ export class AccommodationDialogComponent implements OnInit {
     const choosenServices = this.accommodationForm.controls.additionalServices.value;
     accommodation.additionalServices = this.additionalServices.filter((service, index) => choosenServices[index]);
     accommodation.location = this.location;
-    console.log(accommodation);
+    accommodation.agentId = this.authService.getId();
+    if (!accommodation.cancellationDays) {
+      accommodation.cancellationDays = 0;
+    }
 
     this.accommodationService.addAccommodation(accommodation).subscribe(
       (data) => {
